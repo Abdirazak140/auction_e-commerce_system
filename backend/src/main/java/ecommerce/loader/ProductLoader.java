@@ -1,7 +1,7 @@
-package loader;
+package ecommerce.loader;
 
-import repository.ProductRepository;
-import entity.Product;
+import ecommerce.repository.ProductRepository;
+import ecommerce.entity.Product;
 
 import java.text.SimpleDateFormat;
 

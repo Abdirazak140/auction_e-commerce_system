@@ -1,4 +1,4 @@
-package entity;
+package ecommerce.entity;
 
 import java.text.SimpleDateFormat;
 import java.util.Objects;
