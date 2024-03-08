@@ -3,13 +3,14 @@ package ecommerceServer.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class User {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
 	private String username;
@@ -21,6 +22,10 @@ public class User {
 	private String fname;
 	private String lname;
 	private String address;
+	
+	public long getId() {
+		return this.id;
+	}
 	
 	public String getUsername() {
 		return username;
@@ -84,5 +89,10 @@ public class User {
 	
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	
+	public String toString() {
+		return String.format("Name: %1$s %2$s, City: %3$s, Country: %4$s, Address: %5$s"
+				, this.fname, this.lname, this.city, this.country, this.address);
 	}
 }
