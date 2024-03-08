@@ -20,16 +20,7 @@ public class UserController {
 
     @PostMapping("/create")
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        userRepository.createUser(
-            user.getUsername(), 
-            user.getPassword(), 
-            user.getCountry(), 
-            user.getPostalCode(), 
-            user.getCity(), 
-            user.getFname(), 
-            user.getLname(), 
-            user.getAddress()
-        );
+    	
         return ResponseEntity.ok(user);
     }
 }

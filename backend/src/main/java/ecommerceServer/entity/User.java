@@ -2,12 +2,14 @@ package ecommerceServer.entity;
 
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
-@Entity(name = "user")
+@Entity
 public class User {
 	
 	@Id
+	@GeneratedValue
 	private long id;
 	
 	private String username;
