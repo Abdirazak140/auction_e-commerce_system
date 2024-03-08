@@ -24,7 +24,7 @@ class DatabaseLoader {
   private static final Logger log = LoggerFactory.getLogger(DatabaseLoader.class);
 
   @Bean
-  CommandLineRunner initDatabase(ProductRepository productRepository) {
+  CommandLineRunner initDatabase(ProductRepository productRepository, UserRepository userRepository) {
 
 	  /*
 	   * Preloaded Products 
@@ -32,8 +32,18 @@ class DatabaseLoader {
     return args -> {
     	//SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     	
-    	log.info("Preloading " + productRepository.save(new Product("Computer", 0.0, "2025-04-02 08:00", 0, "Forward")));
-    	log.info("Preloading " + productRepository.save(new Product("Bean", 50.00,  "2024-04-03 09:00", 0, "Dutch")));
+    	//Product Repository Loader
+    	productRepository.save(new Product("Computer", 0.0, "2025-04-02 08:00", 0, "Forward"));
+    	productRepository.save(new Product("Bean", 50.00,  "2024-04-03 09:00", 0, "Dutch"));
+    	//Product Repository Log
+    	productRepository.findAll().forEach(product -> log.info("Preloaded " + product));
+    	
+    	
+    	//User Repository Loader
+    	
+    	//User Repository Log
+    	userRepository.findAll().forEach(user -> log.info("Preloaded " + user));
+    	
     };
   }
   
