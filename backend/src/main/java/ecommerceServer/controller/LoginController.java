@@ -29,6 +29,7 @@ public class LoginController {
 		boolean isSuccessful = authenticationService.validateLoginCredentials(username, password);
 		
 		if (isSuccessful) {
+			// TODO: Return session id here
 			return ResponseEntity.ok("Successful");
 		}
 		else {

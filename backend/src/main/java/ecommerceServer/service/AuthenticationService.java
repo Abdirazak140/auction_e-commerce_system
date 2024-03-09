@@ -15,11 +15,9 @@ public class AuthenticationService {
 	private UserRepository userRepository;
 	
 	public boolean validateLoginCredentials(String username, String password) {
-		Optional<User> userOptional = userRepository.findByUsername(username);
+		User user = userRepository.findByUsername(username);
 		
-		if (userOptional.isPresent()) {
-			User user = userOptional.get();
-
+		if (user != null) {
 			if (!user.getPassword().equals(password)) {
 				
 				return false;
@@ -30,9 +28,4 @@ public class AuthenticationService {
 
 	        return false;
 	    }
-	
-	public boolean validateRegistration(User user) {
-		
-		return true;
-	}
 }
