@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ecommerceServer.connection.LoginRequest;
-import ecommerceServer.service.AuthenticationService;
+import ecommerceServer.service.AuthenticationMessage;
+import ecommerceServer.service.LoginService;
 
 
 @RestController
@@ -19,18 +20,17 @@ import ecommerceServer.service.AuthenticationService;
 public class LoginController {
 	
 	@Autowired
-	private AuthenticationService authenticationService;
+	private LoginService loginService;
 	
 	@PostMapping("/login")
 	public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest){
 		String username = loginRequest.getUsername();
 		String password = loginRequest.getPassword();
 		
-		boolean isSuccessful = authenticationService.validateLoginCredentials(username, password);
+		AuthenticationMessage result = loginService.login(username, password);
 		
-		if (isSuccessful) {
-			// TODO: Return session id here
-			return ResponseEntity.ok("Successful");
+		if (result.isState()) {
+			return ResponseEntity.ok(result.getMsg());
 		}
 		else {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Incorrect username or password");

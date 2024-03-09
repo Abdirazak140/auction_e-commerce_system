@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ecommerceServer.entity.User;
 import ecommerceServer.repository.UserRepository;
-import ecommerceServer.service.AuthenticationService;
+import ecommerceServer.service.AuthenticationMessage;
 import ecommerceServer.service.RegistrationService;
 
 
@@ -26,14 +26,13 @@ public class RegistrationController {
 	@PostMapping("/register")
 	public ResponseEntity<String> register(@RequestBody User user){
 		
-		boolean isSuccessful = registrationService.registerUser(user);
+		AuthenticationMessage result = registrationService.registerUser(user);
 		
-		if (isSuccessful) {
-			// TODO: Return session id here
-			return ResponseEntity.ok("Account created");
+		if (result.isState()) {
+			return ResponseEntity.ok(result.getMsg());
 		}
 		else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Registration Failed");
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(result.getMsg());
 		}
 	}
 }
