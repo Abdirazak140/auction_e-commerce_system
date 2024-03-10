@@ -42,7 +42,7 @@ public class CatalogueController {
 		this.assembler = assembler;
 	}
 	
-	//Get Commands
+	//Get Commands (Browse Catalogue)
 	
 	//Get all products from repo
 	@GetMapping("/product")
@@ -99,4 +99,38 @@ public class CatalogueController {
 	public List<Product> getProductByAuctionTypeForward(@PathVariable String name){
 		return CatalogueService.filterProductByType(CatalogueService.filterProductByName(repo.findAll(), name), "forward");
 	}
+	
+	
+	//Post Commands (Update values of bids)
+	@PostMapping
+	public Product updateDutch(@RequestBody Product existProduct) {
+		return repo.findById(existProduct.getId())
+				.map(product -> {
+					product.setCurrentBid(existProduct.getCurrentBid());
+					return repo.save(product);
+				})
+				.orElseGet(() -> {
+					return existProduct;
+				});
+	}
+	
+	
+	//Put Commands ()
+	@PutMapping("/product/sell")
+	public Product createForwardAuction(@RequestBody Product newProduct) {
+		return repo.findById(newProduct.getId())
+			.map(product -> {
+				product.setId(newProduct.getId());
+				product.setName(newProduct.getName());
+				product.setCurrentBid(newProduct.getCurrentBid());
+				product.setEndTime(newProduct.getEndTime());
+				product.setCurrentWinnerID(newProduct.getCurrentWinnerID());
+				product.setAuctionType(newProduct.getAuctionType());
+				return repo.save(product);
+			})
+			.orElseGet(() -> {
+				return newProduct;
+			});
+	}
+	
 }
