@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import ecommerceServer.repository.ProductRepository;
+import ecommerceServer.service.CatalogueService;
 import ecommerceServer.entity.Product;
 import ecommerceServer.exception.*;
 
@@ -42,18 +43,18 @@ public class CatalogueController {
 	//Get Products with name containing String
 	@GetMapping("/product/{name}")
 	List<Product> getProductByName(@PathVariable String name){
-		return CatalogueResultFilter.filterProductByName(repo.findAll(), name);
+		return CatalogueService.filterProductByName(repo.findAll(), name);
 	}
 	
 	//Get Products with name containing string and are Dutch auctions
 	@GetMapping("/product/{name}/dutch")
 	List<Product> getProductByAuctionTypeDutch(@PathVariable String name){
-		return CatalogueResultFilter.filterProductByType(CatalogueResultFilter.filterProductByName(repo.findAll(), name), "dutch");
+		return CatalogueService.filterProductByType(CatalogueService.filterProductByName(repo.findAll(), name), "dutch");
 	}
 	
 	//Get Products with name containing string and are Forward auctions
 	@GetMapping("/product/{name}/forward")
 	List<Product> getProductByAuctionTypeForward(@PathVariable String name){
-		return CatalogueResultFilter.filterProductByType(CatalogueResultFilter.filterProductByName(repo.findAll(), name), "forward");
+		return CatalogueService.filterProductByType(CatalogueService.filterProductByName(repo.findAll(), name), "forward");
 	}
 }

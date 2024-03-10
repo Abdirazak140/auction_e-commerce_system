@@ -1,4 +1,4 @@
-package ecommerceServer.controller;
+package ecommerceServer.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import ecommerceServer.entity.Product;
 import ecommerceServer.exception.AuctionNotFoundException;
 import ecommerceServer.exception.ProductNotFoundException;
 
-public class CatalogueResultFilter {
+public class CatalogueService {
 	public static List<Product> filterProductByType(List<Product> productList, String type){
 		List<Product> tmp = new ArrayList<Product>();
 		List<Product> full = productList;
