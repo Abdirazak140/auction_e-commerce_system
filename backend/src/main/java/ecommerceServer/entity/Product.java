@@ -13,6 +13,7 @@ public class Product {
 	private @Id @GeneratedValue Long id;
 	private String name;
 	private double currentBid;
+	//Time format "yyyy-MM-dd HH:mm"
 	private String endTime;
 	private int currentWinnerID;
 	private String auctionType;

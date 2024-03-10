@@ -2,14 +2,17 @@ package ecommerceServer.controller;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -25,8 +28,12 @@ import ecommerceServer.exception.*;
 
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api/catalogue")
 public class CatalogueController {
+	@Autowired
 	private final ProductRepository repo;
+	@Autowired
 	private final ProductModelAssembler assembler;
 	
 	
@@ -39,6 +46,10 @@ public class CatalogueController {
 	
 	//Get all products from repo
 	@GetMapping("/product")
+	public List<Product> getAll(){
+		return repo.findAll();
+	}
+	/*
 	public CollectionModel<EntityModel<Product>> getAll(){
 		
 		List<EntityModel<Product>> products = repo.findAll().stream() //
@@ -48,6 +59,7 @@ public class CatalogueController {
 		return CollectionModel.of(products, linkTo(methodOn(CatalogueController.class).getAll()).withSelfRel());
 		
 	}
+	*/
 	
 	//Get Single Product by id
 	@GetMapping("/product/all/id/{id}")
