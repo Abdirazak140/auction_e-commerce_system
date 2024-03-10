@@ -46,6 +46,11 @@
 			<artifactId>hibernate-community-dialects</artifactId>
 			<version>6.4.4.Final</version>
 		</dependency>
+		<dependency>
+			<groupId>com.example</groupId>
+			<artifactId>demo_sqllite</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
