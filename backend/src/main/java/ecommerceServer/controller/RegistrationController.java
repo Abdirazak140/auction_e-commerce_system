@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ecommerceServer.connection.AuthenticationMessage;
 import ecommerceServer.entity.User;
 import ecommerceServer.repository.UserRepository;
-import ecommerceServer.service.AuthenticationMessage;
 import ecommerceServer.service.RegistrationService;
 
 
@@ -33,7 +33,7 @@ public class RegistrationController {
 			return ResponseEntity.ok(result.getMsg());
 		}
 		else {
-			return ResponseEntity.ok(result.getMsg());
+			return ResponseEntity.ok("Error: " + result.getMsg());
 		}
 	}
 }
