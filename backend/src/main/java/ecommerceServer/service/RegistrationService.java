@@ -23,7 +23,7 @@ public class RegistrationService implements AuthenticationService{
 			}
 			
 			userRepository.save(user);
-			return new AuthenticationMessage(true, "Registration Successful");
+			return new AuthenticationMessage(true, "Successful");
 		}
 		else {
 			return new AuthenticationMessage(false, "Missing information");

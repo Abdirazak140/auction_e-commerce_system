@@ -35,7 +35,7 @@ public class LoginController {
 			return ResponseEntity.ok(result.getMsg());
 		}
 		else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Incorrect username or password");
+			return ResponseEntity.ok(result.getMsg());
 		}
 	}
 	
