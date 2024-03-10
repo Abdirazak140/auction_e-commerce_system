@@ -1,18 +1,25 @@
 package ecommerceServer.service;
 
 import java.lang.reflect.Field;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ecommerceServer.connection.AuthenticationMessage;
+import ecommerceServer.entity.Session;
 import ecommerceServer.entity.User;
+import ecommerceServer.repository.SessionRepository;
 import ecommerceServer.repository.UserRepository;
 
 @Service
 public class RegistrationService implements AuthenticationService{
-	// TODO: Add more validation checks
+
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private SessionRepository sessionRepository;
 	
 	public AuthenticationMessage registerUser(User user) {
 		
@@ -23,7 +30,10 @@ public class RegistrationService implements AuthenticationService{
 			}
 			
 			userRepository.save(user);
-			return new AuthenticationMessage(true, "Successful");
+			String sessionId = UUID.randomUUID().toString();
+			Session session = new Session(sessionId, true, user.getId());
+			sessionRepository.save(session);	
+			return new AuthenticationMessage(true, session.getSessionId());
 		}
 		else {
 			return new AuthenticationMessage(false, "Missing information");
@@ -39,7 +49,7 @@ public class RegistrationService implements AuthenticationService{
 	                field.setAccessible(true);
 	                Object value = field.get(user);
 
-	                if (value == null) {
+	                if (!isValidValue(value)) {
 	                    return false;
 	                }
 	            } catch (IllegalAccessException e) {
@@ -50,4 +60,9 @@ public class RegistrationService implements AuthenticationService{
 	    
 		return true;
 	}
+	
+    private boolean isValidValue(Object value) {
+        return value != null && !value.toString().trim().isEmpty();
+    }
+
 }
