@@ -101,36 +101,22 @@ public class CatalogueController {
 	}
 	
 	
-	//Post Commands (Update values of bids)
-	@PostMapping
-	public Product updateDutch(@RequestBody Product existProduct) {
-		return repo.findById(existProduct.getId())
+	//Put Commands (Update values of bids)
+	@PutMapping("/product/update/{id}/{value}")
+	public Product updateDutch(@PathVariable long id, @PathVariable double value) {
+		return repo.findById(id)
 				.map(product -> {
-					product.setCurrentBid(existProduct.getCurrentBid());
+					product.setCurrentBid(value);
 					return repo.save(product);
 				})
-				.orElseGet(() -> {
-					return existProduct;
-				});
+				.orElseThrow(() -> new AuctionNotFoundException("Auction with that ID does not exist"));
 	}
 	
 	
-	//Put Commands ()
-	@PutMapping("/product/sell")
-	public Product createForwardAuction(@RequestBody Product newProduct) {
-		return repo.findById(newProduct.getId())
-			.map(product -> {
-				product.setId(newProduct.getId());
-				product.setName(newProduct.getName());
-				product.setCurrentBid(newProduct.getCurrentBid());
-				product.setEndTime(newProduct.getEndTime());
-				product.setCurrentWinnerID(newProduct.getCurrentWinnerID());
-				product.setAuctionType(newProduct.getAuctionType());
-				return repo.save(product);
-			})
-			.orElseGet(() -> {
-				return newProduct;
-			});
+	//Post Commands (Create New Auctions)
+	@PostMapping("/product/sell")
+	public Product createAuction(@RequestBody Product newProduct) {
+		return repo.save(newProduct);
 	}
 	
 }
