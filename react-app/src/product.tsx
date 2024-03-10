@@ -4,19 +4,19 @@ import Header from './Header';
 import { Link, useLocation } from 'react-router-dom'
 import Payment from './Payment';
 import Receipt from './Receipt';
-import ItemSearch from './itemSearch';
-import ProductTable from './products'
+import ItemSearch from './itemSearch'
 
 
-const App = () => {
+const Product = () => {
 
   return (
     <div className="App">
-    <ProductTable />
+    < Header/>
+    
 
 
     </div>
   );
 }
 
-export default App;
+export default Product;
