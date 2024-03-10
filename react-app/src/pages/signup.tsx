@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Signup() {
     const [username, setUsername] = useState("");
@@ -11,13 +11,14 @@ export default function Signup() {
     const [country, setCountry] = useState("");
     const [postalCode, setPostalCode] = useState("");
     const [password, setPassword] = useState("");
-
+    const [errorMsg, setErrorMsg] = useState("")
+    const navigate = useNavigate();
 
     const handleSubmit = async (event: any) => {
         event.preventDefault();
 
         try {
-            const response = await axios.post("http://localhost:8080/api/users/register", {
+            const response = await axios.put("http://localhost:8080/api/users/register", {
                 username,
                 password,
                 fname,
@@ -27,10 +28,15 @@ export default function Signup() {
                 country,
                 postalCode,
             })
-            console.log(response)
-
+            console.log(response.data)
+            if (response.data === "Successful"){
+                navigate("/dashboard")
+            }
+            else{
+                setErrorMsg(response.data)
+            }
         } catch (error) {
-
+            console.log(error);
         }
     }
 
@@ -111,7 +117,8 @@ export default function Signup() {
                             <span className="bar w-80"></span>
                         </div>
                     </div>
-                    <div className="mt-16">
+                    <span className="text-xl text-red-500 font-bold mt-4">{errorMsg}</span>
+                    <div className="mt-9">
                         <input
                             type="submit"
                             value="Submit"

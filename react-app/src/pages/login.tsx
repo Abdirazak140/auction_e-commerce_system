@@ -1,12 +1,14 @@
 import axios from "axios";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [errorMsg, setErrorMsg] = useState("")
+    const navigate = useNavigate();
 
-    const handleSubmit = async (event: any) =>  {
+    const handleSubmit = async (event: any) => {
         event.preventDefault();
 
         try {
@@ -14,13 +16,34 @@ export default function Login() {
                 username,
                 password
             })
-            console.log(response)
-
+            console.log(response.data)
+            localStorage.setItem('sessionId', response.data);
+            navigate("/dashboard")
         } catch (error) {
-
+            console.log(error);
         }
-
     }
+
+    useEffect(() => {
+        const fetchAuthState = async () => {
+            const sessionId = window.localStorage.getItem('sessionId');
+
+            if (sessionId) {
+                try {
+                    const response = await axios.post(`http://localhost:8080/api/users/getAuthState?sessionId=${sessionId}`);
+                    console.log(sessionId)
+                    console.log(response.data);
+
+                    if (response.data === true) {
+                        navigate("/dashboard");
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        };
+        fetchAuthState();
+    }, [])
 
     return (
         <div className="h-screen w-screen flex justify-center items-center">
@@ -29,19 +52,20 @@ export default function Login() {
                     <span className="font-semibold text-2xl w-full flex justify-center text-left mb-6">Login</span>
                     <div className="space-y-3">
                         <div className="relative">
-                            <input 
-                            id="username-input" type="text" placeholder="Username" className="input w-72" value={username} onChange={(e) => setUsername(e.target.value)}/>
+                            <input
+                                id="username-input" type="text" placeholder="Username" className="input w-72" value={username} onChange={(e) => setUsername(e.target.value)} />
                             <span className="highlight"></span>
                             <span className="bar w-72"></span>
                         </div>
 
                         <div className="relative">
-                            <input id="password-input" type="password" placeholder="Password" className="input w-72" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                            <input id="password-input" type="password" placeholder="Password" className="input w-72" value={password} onChange={(e) => setPassword(e.target.value)} />
                             <span className="highlight"></span>
                             <span className="bar w-72"></span>
                         </div>
                     </div>
-                    <div className="mt-16">
+                    <span className="text-xl text-red-500 font-bold mt-4">{errorMsg}</span>
+                    <div className="mt-9">
                         <input
                             type="submit"
                             value="Submit"
