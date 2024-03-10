@@ -1,6 +1,7 @@
 package ecommerceServer.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,10 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import ecommerceServer.connection.AuthenticationMessage;
 import ecommerceServer.connection.LoginRequest;
 import ecommerceServer.entity.Session;
 import ecommerceServer.repository.SessionRepository;
-import ecommerceServer.service.AuthenticationMessage;
 import ecommerceServer.service.LoginService;
 import jakarta.servlet.http.HttpSession;
 
@@ -40,7 +42,7 @@ public class LoginController {
 			return ResponseEntity.ok(result.getMsg());
 		}
 		else {
-			return ResponseEntity.ok(result.getMsg());
+			return ResponseEntity.ok("Error: "+ result.getMsg());
 		}
 	}
 	
@@ -54,14 +56,17 @@ public class LoginController {
 	}
 	
 	@DeleteMapping("/logout")
-	public ResponseEntity<String> logout(@RequestParam String sessionId){
-		//TODO: Implement deletebySessionId
-		Session session = sessionRepository.findBySessionId(sessionId);
-		sessionRepository.findById(session.getId());
-		
-//        sessionRepository.deleteBySessionId(sessionId);
-		return ResponseEntity.ok("Successful");
+	public ResponseEntity<String> logout(@RequestParam String sessionId) {
+	    Session session = sessionRepository.findBySessionId(sessionId);
+
+	    if (session != null) {
+	        sessionRepository.deleteById(session.getId());
+	        return ResponseEntity.ok("Logout successful");
+	    } else {
+	        return ResponseEntity.badRequest().body("Session not found");
+	    }
 	}
+
 	
 	@PatchMapping("/reset")
 	public ResponseEntity<String> resetPassword(){

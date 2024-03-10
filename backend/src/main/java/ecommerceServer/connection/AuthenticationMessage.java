@@ -1,4 +1,4 @@
-package ecommerceServer.service;
+package ecommerceServer.connection;
 
 public class AuthenticationMessage {
 	private boolean state;

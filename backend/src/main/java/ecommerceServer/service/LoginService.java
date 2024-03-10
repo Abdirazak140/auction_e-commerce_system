@@ -1,11 +1,11 @@
 package ecommerceServer.service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ecommerceServer.connection.AuthenticationMessage;
 import ecommerceServer.entity.Session;
 import ecommerceServer.entity.User;
 import ecommerceServer.repository.SessionRepository;
@@ -27,9 +27,9 @@ public class LoginService implements AuthenticationService{
 		loginEntry.setPassword(password);
 		
 		if (validate(loginEntry)) {
-			Session session = new Session();
-			session.setAuthState(true);
-			session.setSessionId(UUID.randomUUID().toString());
+			String sessionId = UUID.randomUUID().toString();
+			User user = userRepository.findByUsername(loginEntry.getUsername());
+			Session session = new Session(sessionId, true, user.getId());
 			sessionRepository.save(session);
 			result = new AuthenticationMessage(true, session.getSessionId());
 		}

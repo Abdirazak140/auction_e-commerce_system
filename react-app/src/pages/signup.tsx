@@ -29,11 +29,12 @@ export default function Signup() {
                 postalCode,
             })
             console.log(response.data)
-            if (response.data === "Successful"){
-                navigate("/dashboard")
+            if (response.data.substring(0, 5) === "Error"){
+                setErrorMsg(response.data.substring(6));
             }
             else{
-                setErrorMsg(response.data)
+                localStorage.setItem('sessionId', response.data);
+                navigate("/dashboard")
             }
         } catch (error) {
             console.log(error);
