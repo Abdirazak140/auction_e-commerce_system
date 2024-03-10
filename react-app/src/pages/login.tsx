@@ -17,8 +17,13 @@ export default function Login() {
                 password
             })
             console.log(response.data)
-            localStorage.setItem('sessionId', response.data);
-            navigate("/dashboard")
+            if (response.data.substring(0, 5) === "Error"){
+                setErrorMsg(response.data.substring(6));
+            }
+            else{
+                localStorage.setItem('sessionId', response.data);
+                navigate("/dashboard")
+            }
         } catch (error) {
             console.log(error);
         }
