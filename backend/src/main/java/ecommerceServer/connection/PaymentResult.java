@@ -7,7 +7,15 @@ public class PaymentResult {
 	private boolean isPaymentSuccessful;
 	private String shipmentDetails;
 	private User user;
-//	private Product product;
+	private String productName;
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
 	private double totalPaid;
 	private String errorMsg;
 		

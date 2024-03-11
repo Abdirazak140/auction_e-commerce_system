@@ -7,7 +7,16 @@ public class PaymentRequest {
 	private String expDate;
 	private String securityCode;
 	private double totalPayment;
+	private long productId;
 	
+	public long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(long productId) {
+		this.productId = productId;
+	}
+
 	public String getSessionId() {
 		return sessionId;
 	}

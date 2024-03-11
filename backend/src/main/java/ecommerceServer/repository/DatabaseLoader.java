@@ -22,8 +22,9 @@ class DatabaseLoader {
   private static final Logger log = LoggerFactory.getLogger(DatabaseLoader.class);
 
   @Bean
-  CommandLineRunner initDatabase(UserRepository userRepository) {
+  CommandLineRunner initDatabase(UserRepository userRepository, ProductRepository productRepository, SessionRepository sessionRepository, DutchAuctionRepository dutchAuctionRepository, ForwardAuctionRepository forwardAuctionRepository) {
     return args -> {
+      
 
     };
   }

@@ -21,9 +21,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import ecommerceServer.repository.ProductRepository;
+import ecommerceServer.repository.DutchAuctionRepository;
+import ecommerceServer.repository.ForwardAuctionRepository;
 import ecommerceServer.service.CatalogueService;
 import ecommerceServer.assembler.ProductModelAssembler;
 import ecommerceServer.entity.Product;
+import ecommerceServer.entity.DutchAuction;
+import ecommerceServer.entity.ForwardAuction;
 import ecommerceServer.exception.*;
 
 
@@ -35,21 +39,26 @@ public class CatalogueController {
 	private final ProductRepository repo;
 	@Autowired
 	private final ProductModelAssembler assembler;
+	@Autowired
+	private final ForwardAuctionRepository forwardAucRepo;
+	@Autowired
+	private final DutchAuctionRepository dutchAucRepo;
 	
 	
-	CatalogueController(ProductRepository repo, ProductModelAssembler assembler){
+	CatalogueController(ProductRepository repo, ProductModelAssembler assembler, DutchAuctionRepository dutchAucRepo, ForwardAuctionRepository forwardAucRepo){
 		this.repo = repo;
 		this.assembler = assembler;
+		this.dutchAucRepo = dutchAucRepo;
+		this.forwardAucRepo = forwardAucRepo;
 	}
 	
 	//Get Commands (Browse Catalogue)
 	
 	//Get all products from repo
 	@GetMapping("/product")
-	public List<Product> getAll(){
-		return repo.findAll();
-	}
-	/*
+	//public List<Product> getAll(){
+	//	return repo.findAll();
+	//}
 	public CollectionModel<EntityModel<Product>> getAll(){
 		
 		List<EntityModel<Product>> products = repo.findAll().stream() //
@@ -59,7 +68,6 @@ public class CatalogueController {
 		return CollectionModel.of(products, linkTo(methodOn(CatalogueController.class).getAll()).withSelfRel());
 		
 	}
-	*/
 	
 	//Get Single Product by id
 	@GetMapping("/product/all/id/{id}")
@@ -103,7 +111,7 @@ public class CatalogueController {
 	
 	//Put Commands (Update values of bids)
 	@PutMapping("/product/update/{id}/{value}")
-	public Product updateDutch(@PathVariable long id, @PathVariable double value) {
+	public Product updateBid(@PathVariable long id, @PathVariable double value) {
 		return repo.findById(id)
 				.map(product -> {
 					product.setCurrentBid(value);
@@ -115,8 +123,38 @@ public class CatalogueController {
 	
 	//Post Commands (Create New Auctions)
 	@PostMapping("/product/sell")
-	public Product createAuction(@RequestBody Product newProduct) {
-		return repo.save(newProduct);
+	public Product createAuction(@RequestBody Product newProduct) throws ProductNotFoundException {
+		Product prod = newProduct;
+		repo.save(prod);
+		if (prod.getAuctionType().equals("dutch")){
+			DutchAuction newAuction = new DutchAuction(
+				prod.getId(),
+				prod.getCurrentBid()
+			);
+			dutchAucRepo.save(newAuction);
+			return repo.save(prod);
+		}
+		else if (prod.getAuctionType().equals("forward")){
+			ForwardAuction newAuction = new ForwardAuction(
+				prod.getId(),
+				prod.getCurrentBid(),
+				prod.getEndTime()
+			);
+			forwardAucRepo.save(newAuction);
+			return repo.save(prod);
+		}
+		else {
+			throw new ProductNotFoundException("Invalid Product Listing");
+		}
 	}
-	
+
+
+	//Delete Commands (Auction Finish)
+	@DeleteMapping("/product/end/{id}")
+	public void endAuction(@PathVariable long id){
+		repo.deleteById(id);
+
+	}
+
+
 }

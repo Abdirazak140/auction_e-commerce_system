@@ -6,11 +6,14 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ecommerceServer.connection.AuctionResponse;
 import ecommerceServer.connection.PaymentRequest;
 import ecommerceServer.connection.PaymentResult;
+import ecommerceServer.entity.Product;
 import ecommerceServer.entity.Session;
 import ecommerceServer.entity.User;
 import ecommerceServer.exception.UserNotFoundException;
+import ecommerceServer.repository.ProductRepository;
 import ecommerceServer.repository.SessionRepository;
 import ecommerceServer.repository.UserRepository;
 
@@ -19,6 +22,9 @@ public class PaymentService {
 	
 	private PaymentRequest request;
 	private PaymentResult response;
+	
+	@Autowired
+	private ProductRepository productRepo;
 	
 	@Autowired
 	private SessionRepository sessionRepository;
@@ -89,7 +95,11 @@ public class PaymentService {
 
 		if (isSuccessful) {
 			Optional<User> searchedUser = userRepository.findById(session.getUserId());
+			Optional<Product> searchedProduct = productRepo.findById(request.getProductId());
 			User user = searchedUser.orElseThrow(() -> new UserNotFoundException(session.getUserId()));
+			
+			Product product = searchedProduct.orElseThrow(() -> new UserNotFoundException(request.getProductId()));
+			response.setProductName(product.getName());
         	response.setUser(user);
         	response.setPaymentSuccessful(true);
         	response.setTotalPaid(totalPayment);
