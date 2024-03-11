@@ -8,6 +8,9 @@ import DutchAuctionBidPage from './pages/DutchAuctionPage';
 import AuctionEndPage from './pages/AuctionEndingPage'; // Import the AuctionEndPage
 import SellItemPage from './pages/SellItemPage';
 import UpdateDutchAuctionPrice from './pages/UpdateDutchAuctionPage';
+import ProductTable from './pages/Products';
+import Receipt from './pages/Receipt';
+import Payment from './pages/Payment';
 
 
 function App() {
@@ -22,8 +25,10 @@ function App() {
           <Route path="/dutch-auction-bid" element={<DutchAuctionBidPage />} />
           <Route path="/auction-end" element={<AuctionEndPage />} /> 
           <Route path="/sell-item" element={<SellItemPage />} /> 
-          <Route path="/update-dutch-auction-price" element={<UpdateDutchAuctionPrice />} /> {/* Add your route here */}
-
+          <Route path="/update-dutch-auction-price" element={<UpdateDutchAuctionPrice />} /> 
+          <Route path="/products" element={<ProductTable />} /> 
+          <Route path="/receipt" element={<Receipt />} /> 
+          <Route path="/payment" element={<Payment />} /> 
 
         </Routes>
     </Router>
