@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
-import './Payment.css';
-import Header from './Header';
-import { Link, useLocation } from 'react-router-dom'
-import Payment from './Payment';
-import Receipt from './Receipt';
-import ItemSearch from './itemSearch';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import Login from './pages/login';
+import Signup from './pages/signup';
+import Dashboard from './pages/dashboard';
 import ProductTable from './products'
 
-
-const App = () => {
-
+function App() {
   return (
-    <div className="App">
-    <ProductTable />
-
-
-    </div>
+    <Router>
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/signup" element={<Signup/>}/>
+          <Route path="/dashboard" element={<Dashboard/>}/>
+          <Route path="/producttable" element={<ProductTable/>}/>
+        </Routes>
+    </Router>
   );
 }
 
