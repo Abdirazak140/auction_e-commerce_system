@@ -5,12 +5,13 @@ import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Product {
 
-	private @Id @GeneratedValue Long id;
+	private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
 	private String name;
 	private double currentBid;
 	//Time format "yyyy-MM-dd HH:mm"
