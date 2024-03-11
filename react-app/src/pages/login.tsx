@@ -29,26 +29,26 @@ export default function Login() {
         }
     }
 
-    useEffect(() => {
-        const fetchAuthState = async () => {
-            const sessionId = window.localStorage.getItem('sessionId');
+    // useEffect(() => {
+    //     const fetchAuthState = async () => {
+    //         const sessionId = window.localStorage.getItem('sessionId');
 
-            if (sessionId) {
-                try {
-                    const response = await axios.post(`http://localhost:8080/api/users/getAuthState?sessionId=${sessionId}`);
-                    console.log(sessionId)
-                    console.log(response.data);
+    //         if (sessionId) {
+    //             try {
+    //                 const response = await axios.post(`http://localhost:8080/api/users/getAuthState?sessionId=${sessionId}`);
+    //                 console.log(sessionId)
+    //                 console.log(response.data);
 
-                    if (response.data === true) {
-                        navigate("/dashboard");
-                    }
-                } catch (error) {
-                    console.log(error);
-                }
-            }
-        };
-        fetchAuthState();
-    }, [])
+    //                 if (response.data === true) {
+    //                     navigate("/dashboard");
+    //                 }
+    //             } catch (error) {
+    //                 console.log(error);
+    //             }
+    //         }
+    //     };
+    //     fetchAuthState();
+    // }, [])
 
     return (
         <div className="h-screen w-screen flex justify-center items-center">
