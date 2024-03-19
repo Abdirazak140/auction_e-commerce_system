@@ -53,4 +53,30 @@ public class LoginService implements AuthenticationService{
 		
 		    return false;
 	}
+
+	public AuthenticationMessage reset(String username, String newPassword) {
+		AuthenticationMessage result;
+		
+		if (isValidValue(newPassword)) {
+			User user = userRepository.findByUsername(username);
+			if (user == null) {
+				return new AuthenticationMessage(false, "Username does not exist");
+			}
+			if (user.getPassword().equals(newPassword)) {
+				return new AuthenticationMessage(false, "New password must be different from the current one");
+			}
+			
+			userRepository.updatePasswordByUsername(username, newPassword);
+			return new AuthenticationMessage(true, "Password updated successfully to " + newPassword);
+		}
+		else {
+			return new AuthenticationMessage(false, "Password field is empty");
+		}
+	}
+	
+    private boolean isValidValue(String value) {
+        return value != null && !value.toString().trim().isEmpty();
+    }
+	
+	
 }

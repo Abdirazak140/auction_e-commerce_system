@@ -8,26 +8,26 @@ export default function Login() {
     const [errorMsg, setErrorMsg] = useState("")
     const navigate = useNavigate();
 
-    const handleSubmit = async (event: any) => {
-        event.preventDefault();
+    // const handleSubmit = async (event: any) => {
+    //     event.preventDefault();
 
-        try {
-            const response = await axios.post("http://localhost:8080/api/users/login", {
-                username,
-                password
-            })
-            console.log(response.data)
-            if (response.data.substring(0, 5) === "Error"){
-                setErrorMsg(response.data.substring(6));
-            }
-            else{
-                localStorage.setItem('sessionId', response.data);
-                navigate("/dashboard")
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    //     try {
+    //         const response = await axios.post("http://localhost:8080/api/users/login", {
+    //             username,
+    //             password
+    //         })
+    //         console.log(response.data)
+    //         if (response.data.substring(0, 5) === "Error"){
+    //             setErrorMsg(response.data.substring(6));
+    //         }
+    //         else{
+    //             localStorage.setItem('sessionId', response.data);
+    //             navigate("/dashboard")
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     // useEffect(() => {
     //     const fetchAuthState = async () => {
@@ -52,7 +52,7 @@ export default function Login() {
 
     return (
         <div className="h-screen w-screen flex justify-center items-center">
-            <form className="px-24 py-20 w-full h-form" onSubmit={handleSubmit}>
+            <form className="px-24 py-20 w-full h-form">
                 <div className="flex flex-col w-full h-full justify-center items-center">
                     <span className="font-semibold text-2xl w-full flex justify-center text-left mb-6">Login</span>
                     <div className="space-y-3">

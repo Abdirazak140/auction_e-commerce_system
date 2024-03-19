@@ -68,9 +68,17 @@ public class LoginController {
 	}
 
 	
-	@PatchMapping("/reset")
-	public ResponseEntity<String> resetPassword(){
-		//TODO: Add reset password functionality
-		return ResponseEntity.ok("");
+	@PatchMapping("/reset-password")
+	public ResponseEntity<String> resetPassword(@RequestBody LoginRequest loginRequest){
+		String username = loginRequest.getUsername();
+		String newPassword = loginRequest.getPassword();
+		AuthenticationMessage result = loginService.reset(username, newPassword);
+		
+		if (result.isState()) {
+			return ResponseEntity.ok(result.getMsg());
+		}
+		else {
+			return ResponseEntity.ok("Error: "+ result.getMsg());
+		}
 	}
 }
