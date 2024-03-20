@@ -21,11 +21,27 @@ public class Product {
 	
 	Product() {}
 	
+	//
 	public Product(String name, double cb, String time, int winID, String aucType) {
 		this.name = name;
 		this.currentBid = cb;
 		this.endTime = time;
 		this.currentWinnerID = winID;
+		this.auctionType = aucType;
+	}
+	
+	//Dutch Auction
+	public Product(String name, double startingBid, String aucType) {
+		this.name = name;
+		this.currentBid = startingBid;
+		this.auctionType = aucType;
+	}
+	
+	//Forward Auction
+	public Product(String name, double startingBid, String time, String aucType) {
+		this.name = name;
+		this.currentBid = startingBid;
+		this.endTime = time;
 		this.auctionType = aucType;
 	}
 	
