@@ -1,0 +1,85 @@
+/* Header Component Styles 
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');*/
+/*.header {
+  background-color:#01B5BC; 
+  padding: 20px 0; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff; 
+  font-family: 'Poppins', sans-serif;
+  font-size: larger;
+  font-weight: 400;
+}
+
+.logo img {
+  width: 300px; 
+  height: 80px;
+}
+
+/*
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #01B5BC;
+  text-align: right; 
+  position: right;
+}
+
+li {
+  display: inline-block;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 20px;
+  text-decoration: none;
+}
+
+
+li a:hover {
+  background-color: #111;
+}*/
+header {
+  background-color: #01B5BC;
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-size: larger;
+  font-weight: 400;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  width: 100px;
+  height: auto;
+  margin-right: 20px; /* Add some margin between logo and links */
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+nav ul li {
+  margin-left: 10px; /* Add margin between list items */
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+
