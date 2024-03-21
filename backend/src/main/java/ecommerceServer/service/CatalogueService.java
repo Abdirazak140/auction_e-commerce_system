@@ -15,6 +15,7 @@ import ecommerceServer.entity.Product;
 import ecommerceServer.exception.AuctionNotFoundException;
 import ecommerceServer.exception.ProductNotFoundException;
 import ecommerceServer.repository.ProductRepository;
+import java.time.LocalDateTime;
 
 @Service
 public class CatalogueService {
@@ -75,10 +76,10 @@ public class CatalogueService {
 	}
 	
 	public boolean inputCheck(Product prod) {
-		LocalDate date = LocalDate.now();
+		LocalDateTime date = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		String text = date.format(formatter);
-		LocalDate parsedDate = LocalDate.parse(text, formatter);
+		LocalDateTime parsedDate = LocalDateTime.parse(text, formatter);
 		
 		if (prod.getAuctionType().equals("dutch")) {
 			//Check if starting bid is higher than 0, name is not empty
@@ -91,7 +92,7 @@ public class CatalogueService {
 		}
 		else if (prod.getAuctionType().equals("forward")) {
 			//Check if starting bid is positive, name is not empty, end time is later than right now
-			if (prod.getCurrentBid() >= 0 && !prod.getName().equals("") && LocalDate.parse(prod.getEndTime()).compareTo(parsedDate) < 0) {
+			if (prod.getCurrentBid() >= 0 && !prod.getName().equals("") && LocalDateTime.parse(prod.getEndTime(), formatter).isAfter(parsedDate)) {
 				return true;
 			}
 			else {
