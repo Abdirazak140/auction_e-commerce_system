@@ -14,35 +14,36 @@ export default function Signup() {
     const [errorMsg, setErrorMsg] = useState("")
     const navigate = useNavigate();
 
-    const handleSubmit = async (event: any) => {
-        event.preventDefault();
+    // const handleSubmit = async (event: any) => {
+    //     event.preventDefault();
 
-        try {
-            const response = await axios.put("http://localhost:8080/api/users/register", {
-                username,
-                password,
-                fname,
-                lname,
-                address,
-                city,
-                country,
-                postalCode,
-            })
-            console.log(response.data)
-            if (response.data === "Successful"){
-                navigate("/dashboard")
-            }
-            else{
-                setErrorMsg(response.data)
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    //     try {
+    //         const response = await axios.put("http://localhost:8080/api/users/register", {
+    //             username,
+    //             password,
+    //             fname,
+    //             lname,
+    //             address,
+    //             city,
+    //             country,
+    //             postalCode,
+    //         })
+    //         console.log(response.data)
+    //         if (response.data.substring(0, 5) === "Error"){
+    //             setErrorMsg(response.data.substring(6));
+    //         }
+    //         else{
+    //             localStorage.setItem('sessionId', response.data);
+    //             navigate("/dashboard")
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     return (
         <div className="h-screen w-screen flex justify-center items-center">
-            <form className="px-24 py-20 w-full h-form" onSubmit={handleSubmit}>
+            <form className="px-24 py-20 w-full h-form">
                 <div className="flex flex-col w-full h-full justify-center items-center">
                     <span className="font-semibold text-2xl w-full flex justify-center text-left mb-6">Register</span>
 

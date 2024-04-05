@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from './Header';
-import '../styles/dashboard.css';
+import '../styles/dashboard.css'; // Choose the correct import statement based on your project structure
 
 const Dashboard = () => {
   return (
