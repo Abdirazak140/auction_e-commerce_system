@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Products.css'; 
+import '../styles/Products.css'; 
 import Header from './Header';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 interface Product {
   id: number;
@@ -38,19 +40,26 @@ const ProductTable: React.FC = () => {
   };
 
   return (
-    <div className='main'>
-    <div className="product-table-container">
-      <h1>Product Catalogue </h1>
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Search by item name"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button onClick={handleSearch}>Search</button>
-      </div>
-      <table className="product-table">
+    <>
+      <Header />
+      <div className='main'>
+        <div className="product-table-container">
+          <h1>Product Catalogue</h1>
+          <div className="search-container">
+            <div style={{left: '24%', top: "50px", position: "absolute"}}>
+            <button onClick={handleSearch} className="search-icon-button">
+              <FontAwesomeIcon icon={faSearch} />
+            </button>
+            </div>
+            <input
+              type="text"
+              placeholder="Search by item name"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+            />
+          </div>
+        <table className="product-table">
         <thead>
           <tr>
             <th>Item Name</th>
@@ -76,6 +85,7 @@ const ProductTable: React.FC = () => {
       </table>
     </div>
     </div>
+    </>
   );
 };
 

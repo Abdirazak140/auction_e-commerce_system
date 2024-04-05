@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './UpdateDutchAuctionPrice.css'; // Import the CSS file
+import '../styles/UpdateDutchAuctionPrice.css'; // Import the CSS file
 
 export default function UpdateDutchAuctionPrice() {
   const [priceUpdate, setPriceUpdate] = useState('');
