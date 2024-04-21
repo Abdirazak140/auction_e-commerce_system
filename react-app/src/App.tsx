@@ -11,13 +11,13 @@ import UpdateDutchAuctionPrice from './pages/UpdateDutchAuctionPage';
 import ProductTable from './pages/Products';
 import Receipt from './pages/Receipt';
 import Payment from './pages/Payment';
-
+import Home from './pages/home';
 
 function App() {
   return (
     <Router>
         <Routes>
-          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/" element={<Home/>} />
           <Route path="/login" element={<Login/>}/>
           <Route path="/signup" element={<Signup/>}/>
           <Route path="/dashboard" element={<Dashboard/>}/>
