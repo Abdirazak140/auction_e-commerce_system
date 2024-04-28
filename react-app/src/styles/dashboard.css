@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
 .dashboard-list {
     list-style-type: none;
     padding: 0;
@@ -17,4 +19,46 @@
   .dashboard-list li:hover {
     background-color: #e9e9e9;
   }
+  
+  .dashboard-container {
+    height: 1ch; /* Adjust the height as needed */
+    width: 80%; /* Adjust the width as needed */
+    margin: 0 auto; /* Center the container horizontally */
+    border: 2px solid #ccc; /* Add a border for visual distinction */
+    border-radius: 10px; /* Add rounded corners for a more modern look */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
+    padding: 20px; /* Add padding to the container */
+    background-color: #f9f9f9; /* Set background color */
+    justify-content: center; /* Center the squares horizontally */
+  }
+  
+  .square-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Adjust the gap between squares */
+  }
+  
+  .square {
+    background-color: #e94d4d; /* Set background color of squares */
+    font-family: Lato,sans-serif;
+    font-weight: 900;
+    font-size: 1.8vb;
+    color:rgb(247, 240, 230);
+    width: 20vw; /* Adjust the width of the squares */
+    height: 20vh; /* Adjust the height of the squares */
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    border: 2px solid #ccc; /* Add border to squares */
+    border-radius: 10px; /* Add rounded corners for squares */
+    padding: 20px; /* Add padding to squares */
+    margin: 20px; /* Add margin between squares */
+    transition: filter 0.3s ease-in; /* Add transition effect for color change */
+    }
+
+  .square:hover {
+    filter: brightness(0.8) /* Adjust the brightness to make it darker */
+  }
+
+  
   

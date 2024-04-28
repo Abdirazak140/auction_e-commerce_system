@@ -42,7 +42,7 @@ const SellItemPage = () => {
   return (
     <>
     <Header/>
-    <div className="outer-container" style={{ marginTop: '5%' }}> {/* This div has been added to control the top margin */}
+    <div className="outer-container" style={{ marginTop: '5vh' }}> {/* This div has been added to control the top margin */}
     <div className="sell-item-container"> {/* Added a container class */}
       <h2>List an Item for Auction</h2>
       <form onSubmit={handleSubmit} className="sell-item-form"> {/* Added form class */}

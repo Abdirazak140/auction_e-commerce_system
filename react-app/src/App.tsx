@@ -11,13 +11,14 @@ import UpdateDutchAuctionPrice from './pages/UpdateDutchAuctionPage';
 import ProductTable from './pages/Products';
 import Receipt from './pages/Receipt';
 import Payment from './pages/Payment';
+import AuctionHistory from './pages/AuctionHistory';
 
 
 function App() {
   return (
     <Router>
         <Routes>
-          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/login" element={<Login/>}/>
           <Route path="/signup" element={<Signup/>}/>
           <Route path="/dashboard" element={<Dashboard/>}/>
@@ -27,6 +28,7 @@ function App() {
           <Route path="/sell-item" element={<SellItemPage />} /> 
           <Route path="/update-dutch-auction-price" element={<UpdateDutchAuctionPrice />} /> 
           <Route path="/products" element={<ProductTable />} /> 
+          <Route path="/auction-history" element={<AuctionHistory />} /> 
           <Route path="/receipt" element={<Receipt />} /> 
           <Route path="/payment" element={<Payment />} /> 
 

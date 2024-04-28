@@ -45,7 +45,7 @@ export default function ForwardAuctionBidPage() {
     return (
         <>
         <Header/>
-        <div className="outer-container" style={{ marginTop: '5%' }}> {/* This div has been added to control the top margin */}
+        <div className="outer-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
         <div className="auction-container">
             <div className="auction-image">
                 <img src={imageUrl} alt="Auction Item" />

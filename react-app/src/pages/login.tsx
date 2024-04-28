@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Header from "./Header";
 
 export default function Login() {
     const [username, setUsername] = useState("")
@@ -51,8 +52,10 @@ export default function Login() {
     // }, [])
 
     return (
+        <body>
+                    <Header/>
         <div className="h-screen w-screen flex justify-center items-center">
-            <form className="px-24 py-20 w-full h-form">
+        <form className="px-24 py-20 w-full h-form">
                 <div className="flex flex-col w-full h-full justify-center items-center">
                     <span className="font-semibold text-2xl w-full flex justify-center text-left mb-6">Login</span>
                     <div className="space-y-3">
@@ -86,5 +89,6 @@ export default function Login() {
 
             </form>
         </div>
+        </body>
     )
 }
