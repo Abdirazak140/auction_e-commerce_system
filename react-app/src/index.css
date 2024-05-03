@@ -76,3 +76,64 @@
         background: transparent;
     }
 }
+
+.btn-login {
+    background-color: white;
+    color: rgb(100, 100, 100);
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid rgb(210, 210, 210);
+    box-shadow: 0px 2px 3px #e0e4ec97;
+}
+
+.btn-signup {
+    background-color: rgb(147 51 234);
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 0;
+    margin-left: 10px;
+    box-shadow: 0px 2px 3px #0d5df14c;
+}
+
+.home-section {
+    height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-content {
+    text-align: center;
+    max-width: 900px;
+    width: 100%;
+}
+
+.home-text {
+    font-size: 3rem;
+    margin: 0;
+}
+
+.home-text .tag {
+    color: #ef4f1a;
+    background-color: rgba(242, 179, 158, 0.634);
+    padding: 3px 5px;
+    border-radius: 3px;
+}
+
+.home-btn {
+    background-color: rgb(147 51 234);
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    padding: 15px 40px;
+    font-size: 24px;
+    border-radius: 10px;
+    border: 0;
+    box-shadow: 0px 4px 6px #0d5df16a;
+}
+
+.home-content p {
+    color: #959595;
+    margin-top: 30px;
+}

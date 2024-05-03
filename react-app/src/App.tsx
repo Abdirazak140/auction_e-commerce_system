@@ -12,13 +12,15 @@ import ProductTable from './pages/Products';
 import Receipt from './pages/Receipt';
 import Payment from './pages/Payment';
 import AuctionHistory from './pages/AuctionHistory';
-
+import Home from './pages/home';
 
 function App() {
   return (
     <Router>
         <Routes>
-          <Route path="/" element={<Navigate to="/dashboard" />} />
+
+          <Route path="/" element={<Home/>} />
+
           <Route path="/login" element={<Login/>}/>
           <Route path="/signup" element={<Signup/>}/>
           <Route path="/dashboard" element={<Dashboard/>}/>
