@@ -1,5 +1,5 @@
 import React from 'react';
-import './Payment.css'; 
+import '../styles/Payment.css'; 
 import Header from './Header';
 //import { Link, useLocation } from 'react-router-dom'
 //<!-- <Link to="/Receipt" className='submit'>SUBMIT</Link> -->   

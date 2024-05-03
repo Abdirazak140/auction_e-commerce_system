@@ -1,12 +1,17 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import imageUrl from "../images/chevroletCorvette.jpeg"
+import Header from './Header'; // Import the header component
+
+
 
 
 export default function ForwardAuctionBidPage() {
     const { auctionId } = useParams();
     const [bidAmount, setBidAmount] = useState("");
     const [currentHighestBid, setCurrentHighestBid] = useState("");
+    const [timeLeft, setTimeLeft] = useState(""); // Add state for time left
 
     useEffect(() => {
         const fetchCurrentBid = async () => {
@@ -38,21 +43,38 @@ export default function ForwardAuctionBidPage() {
     };
 
     return (
-        <div className="auction-page">
-            <h2>Place your bid for Forward Auction {auctionId}</h2>
-            <h3>Current Highest Bid: {currentHighestBid}</h3>
-            <form onSubmit={handleSubmit}> {/* Added class name */}
-                <label>
-                    Bid Amount:
+        <>
+        <Header/>
+        <div className="outer-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        <div className="auction-container">
+            <div className="auction-image">
+                <img src={imageUrl} alt="Auction Item" />
+            </div>
+            <div className="auction-details">
+                <h1 className="auction-header">Product Item</h1>
+                <div className="time-limit-container">
+                    <p>Time Left:</p>
+                    <p>{timeLeft}</p> {/* Update this to show the time left dynamically */}
+                </div>
+                <p className="current-bid">Current Highest Bid: {currentHighestBid}</p>
+                <div className="bid-input">
+                    <label htmlFor="bidAmount">Bid Amount: </label>
                     <input
+                        id="bidAmount"
                         type="number"
                         value={bidAmount}
                         onChange={(e) => setBidAmount(e.target.value)}
                         min="1"
                     />
-                </label>
-                <button type="submit" className="buy-now">Place Bid</button> {/* Changed class name */}
-            </form>
+                </div>
+                <div style={{bottom: '29%', position: 'absolute', left: '84.55%'}}>
+                <button className="bid" onClick={handleSubmit}>
+                    Place My Bid
+                </button>
+                </div>
+            </div>
         </div>
+        </div>
+        </>
     );
 }

@@ -8,12 +8,12 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 interface Product {
   id: number;
   name: string;
-  currentPrice: number;
+  winningBid: number;
   auctionType: string;
-  remainingTime: string;
+  date: string;
 }
 
-const ProductTable: React.FC = () => {
+const AuctionHistory: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -46,7 +46,7 @@ const ProductTable: React.FC = () => {
         <div className="product-table-container">
           <h1>Product Catalogue</h1>
           <div className="search-container">
-            <div style={{left: '1vb', top: "2.5vh", position: "relative"}}>
+            <div style={{left: '24%', top: "50px", position: "absolute"}}>
             <button onClick={handleSearch} className="search-icon-button">
               <FontAwesomeIcon icon={faSearch} />
             </button>
@@ -65,17 +65,17 @@ const ProductTable: React.FC = () => {
             <th>Item Name</th>
             <th>Current Price</th>
             <th>Auction Type</th>
-            <th>Remaining Time</th>
-            <th>Select</th>
+            <th>Winning Bid</th>
+            <th>Date</th>
           </tr>
         </thead>
         <tbody>
           {products.map(product => (
             <tr key={product.id}>
               <td>{product.name}</td>
-              <td>${product.currentPrice}</td>
+              <td>${product.winningBid}</td>
               <td>{product.auctionType}</td>
-              <td>{product.remainingTime}</td>
+              <td>{product.date}</td>
               <td>
                 <button onClick={() => handleSelectButtonClick(product.id)}>Select</button>
               </td>
@@ -89,4 +89,4 @@ const ProductTable: React.FC = () => {
   );
 };
 
-export default ProductTable;
+export default AuctionHistory;

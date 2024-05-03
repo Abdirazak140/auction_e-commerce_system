@@ -1,13 +1,17 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import "./AuctionPage.css"; 
+import "../styles/AuctionPage.css"; 
+import Header from './Header'; // Import the header component
+import imageUrl from "../images/vintageCar.jpeg";
 
 
 
 export default function DutchAuctionBidPage() {
     const [currentPrice, setCurrentPrice] = useState("");
     const { auctionId } = useParams();
+    const [timeLeft, setTimeLeft] = useState(""); // Add state for time left
+
 
         useEffect(() => {
         const fetchCurrentPrice = async () => {
@@ -35,10 +39,26 @@ export default function DutchAuctionBidPage() {
     };
 
     return (
-        <div className="auction-page">
-            <h2>Dutch Auction: {auctionId}</h2>
-            <h3>Current Price: ${currentPrice}</h3>
-            <button className="buy-now" onClick={handleBuyNow}>Buy Now</button>
-        </div>
+        <>
+            <Header />
+            <div className="outer-container" style={{ marginTop: '5%' }}>
+                <div className="auction-container">
+                    <div className="auction-image">
+                        <img src={imageUrl} alt="Auction Item" />
+                    </div>
+                    <div className="auction-details">
+                        <h1 className="auction-header">Product Item: {auctionId}</h1>
+                        <div className="time-limit-container">
+                            <p>Time Left:</p>
+                            <p>{timeLeft}</p>
+                        </div>
+                        <p className="current-price">Current Price: ${currentPrice}</p>
+                        <div style={{bottom: '33.5%', position: 'absolute', left: '84%'}}>
+                        <button className="buy-now" onClick={handleBuyNow}>Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
     );
 }

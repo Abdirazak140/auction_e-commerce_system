@@ -1,0 +1,59 @@
+    .contents {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+  }
+  
+  .left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+    justify-content: center;
+  }
+  
+  .right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .Receipt {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .background {
+    background-color: #f0f0f0;
+  }
+  
+  .Shipping-Details {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  hr {
+    border: 0.5px solid #ccc;
+    margin: 20px 0;
+  }
+  
+  .contents-right {
+    margin-top: 20px;
+  }
+  
+  .title {
+    font-size: 20px; /* Adjusted font size */
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333; /* Dark gray color */
+  }
+  
+  p {
+    font-size: 14px; /* Adjusted font size */
+    color: #666; /* Light gray color */
+  }
+  
