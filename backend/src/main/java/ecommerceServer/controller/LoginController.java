@@ -47,7 +47,7 @@ public class LoginController {
 	}
 	
 	@PostMapping("/getAuthState")
-	public ResponseEntity<Boolean> getAuthState(@RequestParam String sessionId){
+	public ResponseEntity<Boolean> getAuthenticationState(@RequestParam String sessionId){
         Session session = sessionRepository.findBySessionId(sessionId);
         if (session == null) {
         	return ResponseEntity.ok(false);
