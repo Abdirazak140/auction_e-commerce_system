@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "./Header";
+import Navbar from "../components/navbar";
 
 export default function Login() {
     const [username, setUsername] = useState("")
@@ -53,42 +54,43 @@ export default function Login() {
 
     return (
         <body>
-                    <Header/>
-        <div className="h-screen w-screen flex justify-center items-center">
-        <form className="px-24 py-20 w-full h-form">
-                <div className="flex flex-col w-full h-full justify-center items-center">
-                    <span className="font-semibold text-2xl w-full flex justify-center text-left mb-6">Login</span>
-                    <div className="space-y-3">
-                        <div className="relative">
+            <Navbar/>
+            <div className="h-screen w-screen flex justify-center items-start pt-12">
+                <form className="px-24 py-20 w-full h-form">
+                    <div className="flex flex-col w-full h-full justify-center items-center">
+                        <span className="font-semibold text-3xl w-full flex justify-center text-left mb-12">Login to your account</span>
+                        <div className="space-y-3">
+                            <div className="relative">
+                                <input
+                                    id="username-input" type="text" placeholder="Username" className="input w-72" value={username} onChange={(e) => setUsername(e.target.value)} />
+                                <span className="highlight"></span>
+                                <span className="bar w-72"></span>
+                            </div>
+
+                            <div className="relative">
+                                <input id="password-input" type="password" placeholder="Password" className="input w-72" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                <span className="highlight"></span>
+                                <span className="bar w-72"></span>
+                            </div>
+                        </div>
+                        <span className="text-xl text-red-500 font-bold mt-4">{errorMsg}</span>
+                        <div className="mt-9">
                             <input
-                                id="username-input" type="text" placeholder="Username" className="input w-72" value={username} onChange={(e) => setUsername(e.target.value)} />
-                            <span className="highlight"></span>
-                            <span className="bar w-72"></span>
+                                type="submit"
+                                value="Submit"
+                                className="w-96 cursor-pointer bg-purple-600 text-white py-4 px-4 rounded-md hover:bg-purple-700 transition duration-300"
+                            />
                         </div>
 
-                        <div className="relative">
-                            <input id="password-input" type="password" placeholder="Password" className="input w-72" value={password} onChange={(e) => setPassword(e.target.value)} />
-                            <span className="highlight"></span>
-                            <span className="bar w-72"></span>
-                        </div>
-                    </div>
-                    <span className="text-xl text-red-500 font-bold mt-4">{errorMsg}</span>
-                    <div className="mt-9">
-                        <input
-                            type="submit"
-                            value="Submit"
-                            className="w-96 cursor-pointer bg-purple-600 text-white py-4 px-4 rounded-md hover:bg-purple-700 transition duration-300"
-                        />
+                        {/* <div className="flex flex-row space-x-2 justify-center items-center mt-4">
+                            <span>Not registered yet?</span>
+                            <Link className="text-purple-400 font-semibold underline" to="/signup">Create an Account</Link>
+                        </div> */}
+                        <span className="mt-4 text-purple-400 font-semibold underline">Forgot Password?</span>
                     </div>
 
-                    <div className="flex flex-row space-x-2 justify-center items-center mt-4">
-                        <span>Not registered yet?</span>
-                        <Link className="text-purple-400 font-semibold" to="/signup">Create an Account</Link>
-                    </div>
-                </div>
-
-            </form>
-        </div>
+                </form>
+            </div>
         </body>
     )
 }

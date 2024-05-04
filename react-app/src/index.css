@@ -93,7 +93,6 @@
     padding: 10px 20px;
     border-radius: 10px;
     border: 0;
-    margin-left: 10px;
     box-shadow: 0px 2px 3px #0d5df14c;
 }
 
@@ -136,4 +135,138 @@
 .home-content p {
     color: #959595;
     margin-top: 30px;
+}
+
+.features-section {
+    width: 100%;
+    padding: 20px;
+    max-width: 1000px;
+    display: block;
+    margin: auto;
+}
+
+.search-bar-container {
+    position: relative;
+    width: 90%;
+}
+
+.search-bar {
+    width: 100%;
+    padding: 15px 15px 15px 60px;
+    font-size: 2em;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    outline: none;
+    background-color: transparent;
+    transition: border-color 0.3s;
+}
+
+.search-bar:focus {
+    border-color: #6c63ff;
+}
+
+.search-bar-underline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background-color: #6c63ff;
+    transform: scaleX(0);
+    transition: transform 0.3s;
+}
+
+.search-bar:focus+.search-bar-underline {
+    transform: scaleX(1);
+}
+
+.search-bar-highlight {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background-color: rgba(108, 99, 255, 0.1);
+    transition: width 0.3s;
+}
+
+.search-bar:focus~.search-bar-highlight {
+    width: 100%;
+}
+
+.search-bar-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    transition: color 0.3s;
+}
+
+.search-bar:focus~.search-bar-icon {
+    color: #6c63ff;
+}
+
+/* Mini Scrollbar */
+
+.search-bar-mini-container {
+    position: relative;
+    width: 90%;
+}
+
+.search-bar-mini {
+    width: 100%;
+    padding: 15px 15px 15px 60px;
+    font-size: 2em;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    outline: none;
+    background-color: transparent;
+    transition: border-color 0.3s;
+}
+
+.search-bar-mini:focus {
+    border-color: #6c63ff;
+}
+
+.search-bar-mini-underline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background-color: #6c63ff;
+    transform: scaleX(0);
+    transition: transform 0.3s;
+}
+
+.search-bar-mini:focus+.search-bar-mini-underline {
+    transform: scaleX(1);
+}
+
+.search-bar-mini-highlight {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background-color: rgba(108, 99, 255, 0.1);
+    transition: width 0.3s;
+}
+
+.search-bar-mini:focus~.search-bar-mini-highlight {
+    width: 100%;
+}
+
+.search-bar-mini-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    transition: color 0.3s;
+}
+
+.search-bar-mini:focus~.search-bar-mini-icon {
+    color: #6c63ff;
 }

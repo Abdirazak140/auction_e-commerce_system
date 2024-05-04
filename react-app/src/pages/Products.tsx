@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../styles/Products.css'; 
+import '../styles/Products.css';
 import Header from './Header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -46,10 +46,10 @@ const ProductTable: React.FC = () => {
         <div className="product-table-container">
           <h1>Product Catalogue</h1>
           <div className="search-container">
-            <div style={{left: '1vb', top: "2.5vh", position: "relative"}}>
-            <button onClick={handleSearch} className="search-icon-button">
-              <FontAwesomeIcon icon={faSearch} />
-            </button>
+            <div style={{ left: '1vb', top: "2.5vh", position: "relative" }}>
+              <button onClick={handleSearch} className="search-icon-button">
+                <FontAwesomeIcon icon={faSearch} />
+              </button>
             </div>
             <input
               type="text"
@@ -59,32 +59,32 @@ const ProductTable: React.FC = () => {
               className="search-input"
             />
           </div>
-        <table className="product-table">
-        <thead>
-          <tr>
-            <th>Item Name</th>
-            <th>Current Price</th>
-            <th>Auction Type</th>
-            <th>Remaining Time</th>
-            <th>Select</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map(product => (
-            <tr key={product.id}>
-              <td>{product.name}</td>
-              <td>${product.currentPrice}</td>
-              <td>{product.auctionType}</td>
-              <td>{product.remainingTime}</td>
-              <td>
-                <button onClick={() => handleSelectButtonClick(product.id)}>Select</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-    </div>
+          <table className="product-table">
+            <thead>
+              <tr>
+                <th>Item Name</th>
+                <th>Current Price</th>
+                <th>Auction Type</th>
+                <th>Remaining Time</th>
+                <th>Select</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map(product => (
+                <tr key={product.id}>
+                  <td>{product.name}</td>
+                  <td>${product.currentPrice}</td>
+                  <td>{product.auctionType}</td>
+                  <td>{product.remainingTime}</td>
+                  <td>
+                    <button onClick={() => handleSelectButtonClick(product.id)}>Select</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </>
   );
 };

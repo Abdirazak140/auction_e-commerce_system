@@ -1,10 +1,10 @@
 import Navbar from "../components/navbar";
 import { Link } from "react-router-dom";
 
-export default function Home(){
-    return(
+export default function Home() {
+    return (
         <div>
-            <Navbar/>
+            <Navbar />
             <div className="home-section">
                 <div className="home-content">
                     <h1 className="home-text">Create and Discover Exciting <span className='tag'>Auctions</span> Easily</h1>
@@ -13,6 +13,10 @@ export default function Home(){
                     </div>
                     <p>Find unique items in moments</p>
                 </div>
+            </div>
+            <div className='features-section'>
+                <strong className="text-orange-500">Features</strong>
+
             </div>
         </div>
     )
