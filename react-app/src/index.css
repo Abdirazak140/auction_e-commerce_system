@@ -207,7 +207,8 @@
     color: #6c63ff;
 }
 
-/* Mini Scrollbar */
+/* Mini Search Bar */
+
 
 .search-bar-mini-container {
     position: relative;
@@ -217,7 +218,7 @@
 .search-bar-mini {
     width: 100%;
     padding: 15px 15px 15px 60px;
-    font-size: 2em;
+    font-size: 1em;
     border: none;
     border-bottom: 2px solid #ccc;
     outline: none;
@@ -269,4 +270,44 @@
 
 .search-bar-mini:focus~.search-bar-mini-icon {
     color: #6c63ff;
+}
+
+
+.radio-inputs {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 0.5rem;
+    background-color: #EEE;
+    box-sizing: border-box;
+    box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
+    padding: 0.2rem;
+    width: 400px;
+    font-size: 14px;
+}
+
+.radio-inputs .radio {
+    flex: 1 1 auto;
+    text-align: center;
+}
+
+.radio-inputs .radio input {
+    display: none;
+}
+
+.radio-inputs .radio .name {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    border: none;
+    padding: .1rem 0;
+    color: rgba(51, 65, 85, 1);
+    transition: all .15s ease-in-out;
+}
+
+.radio-inputs .radio input:checked+.name {
+    background-color: #fff;
+    font-weight: 600;
 }
