@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import imageUrl from "../images/chevroletCorvette.jpeg"
-import Header from './Header'; // Import the header component
+import Header from '../components/Header'; // Import the header component
 
 
 

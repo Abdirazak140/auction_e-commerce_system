@@ -15,7 +15,25 @@ export default function Home() {
                 </div>
             </div>
             <div className='features-section'>
-                <strong className="text-orange-500">Features</strong>
+                <span className="text-orange-500 font-bold">Features</span>
+                <main className="features-container">
+                    <section className="card">
+                        <h3>Auction System</h3>
+                        <p><strong>Dutch Auction:</strong> Utilize the Dutch auction format to efficiently sell items starting at a higher price that gradually decreases until a buyer accepts the bid.</p>
+                        <p><strong>Forward Auction:</strong> Implement the forward auction format where sellers offer items and buyers bid competitively, with the item going to the highest bidder.</p>
+                    </section>
+
+                    <section className="card">
+                        <h3>User Authentication</h3>
+                        <p><strong>Login Protection:</strong> Secure your platform by implementing user authentication to control access to auction features.</p>
+                        <p><strong>Authentication Process:</strong> Users can securely log in with their credentials to access personalized features and manage their auction activities.</p>
+                    </section>
+
+                    <section className="card">
+                        <h3>User Experience</h3>
+                        <p><strong>User-Friendly Interface:</strong> Offer an intuitive and user-friendly interface for creating auctions, bidding, and searching for items of interest.</p>
+                    </section>
+                </main>
 
             </div>
         </div>

@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar";
 import { CiSearch } from "react-icons/ci";
+import Loading from "../components/loading";
 
 export default function Search() {
     return (
         <div>
             <Navbar />
+            {/* <Loading/> */}
             <div className="h-screen w-screen flex flex-col justify-start items-start pt-12 pl-10">
                 <div className="w-full mb-6">
                     <span className="text-4xl text-gray-600 font-bold">Item Search</span>

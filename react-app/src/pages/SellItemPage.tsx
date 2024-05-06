@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/SellItemPage.css'; // Import the CSS file
-import Header from './Header'; // Import the header component
+import Header from '../components/Header'; // Import the header component
 
 
 type ItemDetails = {

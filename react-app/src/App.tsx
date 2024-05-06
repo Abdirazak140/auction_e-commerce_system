@@ -9,8 +9,8 @@ import AuctionEndPage from './pages/AuctionEndingPage'; // Import the AuctionEnd
 import SellItemPage from './pages/SellItemPage';
 import UpdateDutchAuctionPrice from './pages/UpdateDutchAuctionPage';
 import ProductTable from './pages/Products';
-import Receipt from './pages/Receipt';
-import Payment from './pages/Payment';
+import Receipt from './pages/receipt';
+import Payment from './pages/payment';
 import AuctionHistory from './pages/AuctionHistory';
 import Home from './pages/home';
 import Search from './pages/search';
@@ -26,6 +26,9 @@ function App() {
           <Route path="/signup" element={<Signup/>}/>
           <Route path="/item-search" element={<Search />} />
           <Route path="/item-search/:item" element={<Catalogue/>} />
+          <Route path="/payment" element={<Payment />} /> 
+          <Route path="/receipt" element={<Receipt />} /> 
+
 
           <Route path="/products" element={<ProductTable />} />
 
@@ -36,9 +39,6 @@ function App() {
           <Route path="/sell-item" element={<SellItemPage />} /> 
           <Route path="/update-dutch-auction-price" element={<UpdateDutchAuctionPrice />} /> 
           <Route path="/auction-history" element={<AuctionHistory />} /> 
-          <Route path="/receipt" element={<Receipt />} /> 
-          <Route path="/payment" element={<Payment />} /> 
-
         </Routes>
     </Router>
   );

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Header from './Header';
 import '../styles/dashboard.css'; // Choose the correct import statement based on your project structure
+import Navbar from '../components/navbar';
 
 const Dashboard = () => {
   return (
     <div>
-      <Header />
+      <Navbar />
       <div style={{ position: 'absolute', top: '17vh', left: '14vb', color: '#2e2b2b', fontSize: '2vb', fontFamily: 'Lato, sans-serif', fontWeight: '600' }}>Auction Information</div>
       <div style={{ position: 'absolute', top: '57vh', left: '14vb', color: '#2e2b2b', fontSize: '2vb', fontFamily: 'Lato, sans-serif', fontWeight: '600' }}>Important Information</div>
       <Link to="/sell-item" className="square" style={{ top: '20vh', left: '13vb', position: 'absolute', backgroundColor: '#78beeb' }}>Start An Auction</Link>

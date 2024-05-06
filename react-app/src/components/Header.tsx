@@ -2,7 +2,7 @@ import React from 'react';
 
 import '../styles/Header.css';
 import { Link } from 'react-router-dom'; // Assuming you're using react-router for navigation
-import Dashboard from './dashboard';
+import Dashboard from '../pages/dashboard';
 import logo from "../images/auctionlogo.png"
 
 const Header = () => {

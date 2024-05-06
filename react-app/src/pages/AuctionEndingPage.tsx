@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/AuctionPage.css"; // Import the CSS file
-import Header from "./Header";
+import Header from "../components/Header";
 import auctionEndImage from "../images/chevroletCorvette.jpeg"
 const AuctionEndPage = () => {
     

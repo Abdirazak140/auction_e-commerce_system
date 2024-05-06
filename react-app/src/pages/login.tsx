@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Header from "./Header";
+import Header from "../components/Header";
 import Navbar from "../components/navbar";
+import LoadingScreen from "../components/loading";
 
 export default function Login() {
     const [username, setUsername] = useState("")
@@ -54,7 +55,8 @@ export default function Login() {
 
     return (
         <body>
-            <Navbar/>
+            {/* <LoadingScreen/>   */}
+            <Navbar/> 
             <div className="h-screen w-screen flex justify-center items-start pt-12">
                 <form className="px-24 py-20 w-full h-form">
                     <div className="flex flex-col w-full h-full justify-center items-center">
