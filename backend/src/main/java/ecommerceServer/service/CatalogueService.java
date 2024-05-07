@@ -31,8 +31,14 @@ public class CatalogueService {
 		}
 		else {
 			Product prod = prodOptional.get();
-			//Dutch Value Checks
+			//Dutch Value Checks (Purchase Dutch Auction)
 			if (prod.getAuctionType().equals("dutch")) {
+				catalogueRepository.findById(id).map(product -> {
+					product.setCurrentWinnerID(bidderId);
+					return catalogueRepository.save(product);
+				});
+				
+				/*
 				//Value is greater or equal to current dutch price
 				if (value >= prod.getCurrentBid()) {
 					return new CatalogueResponse(false, "New Price must be lower than current price");
@@ -51,6 +57,7 @@ public class CatalogueService {
 					String tmp = "New price of " + value + " has been set for product " + prod.getName() + " with auction ID " + id;
 					return new CatalogueResponse(true, tmp);
 				}
+				*/
 			}
 			//Forward Value Checks
 			if (prod.getAuctionType().equals("forward")) {
