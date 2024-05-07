@@ -24,7 +24,7 @@ public class CatalogueService {
 	private ProductRepository catalogueRepository;
 	
 	//This Method should not be reached in normal use, only for testing purposes
-	public CatalogueResponse updateBid(long id, double value) {
+	public CatalogueResponse updateBid(long id, double value, long bidderId) {
 		Optional<Product> prodOptional = catalogueRepository.findById(id);
 		if (!prodOptional.isPresent()) {
 			return new CatalogueResponse(false, "Product with that id does not exist");
@@ -45,6 +45,7 @@ public class CatalogueService {
 				else {
 					catalogueRepository.findById(id).map(product -> {
 						product.setCurrentBid(value); 
+						product.setCurrentWinnerID(bidderId);
 						return catalogueRepository.save(product);
 					});
 					String tmp = "New price of " + value + " has been set for product " + prod.getName() + " with auction ID " + id;
@@ -65,6 +66,7 @@ public class CatalogueService {
 				else {
 					catalogueRepository.findById(id).map(product -> {
 						product.setCurrentBid(value);
+						product.setCurrentWinnerID(bidderId);
 						return catalogueRepository.save(product);
 					});
 					String tmp = "Bid of " + value + " has been placed for product " + prod.getName() + " with auction ID " + id;
