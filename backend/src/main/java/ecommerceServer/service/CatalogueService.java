@@ -103,4 +103,23 @@ public class CatalogueService {
 			return false;
 		}
 	}
+	
+	public byte[] getProductPicture(long id) throws ProductNotFoundException, PictureNotFoundException {
+		Optional<Product> prodOptional = catalogueRepository.findById(id);
+		if (!prodOptional.isPresent()) {
+			throw new ProductNotFoundException(id);
+		}
+		
+		Optional<Picture> picOptional = imageRepository.findById(id);
+		if (!picOptional.isPresent()) {
+			throw new PictureNotFoundException(id);
+		}
+		else {
+			Picture pic = picOptional.get();
+			return pic.getPicture();
+		}
+		
+		
+	}
+	
 }

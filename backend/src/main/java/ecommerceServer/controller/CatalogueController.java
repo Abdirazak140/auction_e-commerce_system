@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -89,12 +90,14 @@ public class CatalogueController {
 		return CollectionModel.of(agr, linkTo(methodOn(CatalogueController.class).getProductByName(name)).withSelfRel());
 	}
 	
+	//Get All Dutch Auctions
 	@GetMapping("/product/dutch")
 	public CollectionModel<EntityModel<Product>> getDutch(){
 		List<EntityModel<Product>> agr = CatalogueFunction.filterProductByType(repo.findAll(), "dutch").stream().map(assembler::toModel).collect(Collectors.toList());
 		return CollectionModel.of(agr, linkTo(methodOn(CatalogueController.class).getDutch()).withSelfRel());
 	}
 	
+	//Get All Forward Auctions
 	@GetMapping("/product/forward")
 	public CollectionModel<EntityModel<Product>> getForward(){
 		List<EntityModel<Product>> agr = CatalogueFunction.filterProductByType(repo.findAll(), "forward").stream().map(assembler::toModel).collect(Collectors.toList());
@@ -113,8 +116,21 @@ public class CatalogueController {
 		return CatalogueFunction.filterProductByType(CatalogueFunction.filterProductByName(repo.findAll(), name), "forward");
 	}
 	
+	//Get Product Image Upon Request
+	@GetMapping("/product/image/{id}")
+	public byte[] getProductImage(@PathVariable long id) {
+		return cataServe.getProductPicture(id);
+	}
+	
+	//Get All Products Sold By User
+	@GetMapping("/product/seller")
+	public List<Product> getProductBySeller(@RequestParam long sellerId){
+		return CatalogueFunction.filterProductBySeller(repo.findAll(), sellerId);
+	}
 	
 	//Put Commands (Update values of bids)
+	
+	//Update Value of Bids (Forward and Dutch)
 	@PutMapping("/product/update/{id}/{value}")
 	public ResponseEntity<CatalogueResponse> updateBid(@PathVariable long id, @PathVariable double value) {
 		CatalogueResponse response = cataServe.updateBid(id, value);
@@ -131,6 +147,8 @@ public class CatalogueController {
 	
 	
 	//Post Commands (Create New Auctions)
+	
+	//Add new product to catalogue
 	@PostMapping("/product/sell")
 	public ResponseEntity<CatalogueResponse> createAuction(@RequestBody Product newProduct) throws ProductNotFoundException {
 		if (!cataServe.inputCheck(newProduct)) {
@@ -142,20 +160,22 @@ public class CatalogueController {
 			if (prod.getAuctionType().equals("dutch")){
 				DutchAuction newAuction = new DutchAuction(
 					prod.getId(),
-					prod.getCurrentBid()
+					prod.getCurrentBid(),
+					prod.getSellerId()
 				);
 				dutchAucRepo.save(newAuction);
-				String tmp = "Product of name " + prod.getName() + " has been listed for auction with id " + prod.getId();
+				String tmp = "" + prod.getId();
 				return ResponseEntity.ok(new CatalogueResponse(true, tmp));
 			}
 			else if (prod.getAuctionType().equals("forward")){
 				ForwardAuction newAuction = new ForwardAuction(
 					prod.getId(),
 					prod.getCurrentBid(),
-					prod.getEndTime()
+					prod.getEndTime(),
+					prod.getSellerId()
 				);
 				forwardAucRepo.save(newAuction);
-				String tmp = "Product of name " + prod.getName() + " has been listed for auction with id " + prod.getId();
+				String tmp = "" + prod.getId();
 				return ResponseEntity.ok(new CatalogueResponse(true, tmp));
 			}
 			else {
@@ -164,9 +184,25 @@ public class CatalogueController {
 		}
 		
 	}
+	
+	//Add image to product listing
+	@PostMapping("/product/sell/adv")
+	public ResponseEntity<CatalogueResponse> createPicture(@RequestBody Picture newPicture) throws ProductNotFoundException {
+		if (repo.findById(newPicture.getId()) != null) {
+			Picture pic = new Picture(
+					newPicture.getId(),
+					newPicture.getPicture());
+			return ResponseEntity.ok(new CatalogueResponse(true, "Image uploaded succesfully"));
+		}
+		else {
+			return ResponseEntity.ok(new CatalogueResponse(false, "Invalid"));
+		}
+	}
 
 
 	//Delete Commands (Auction Finish)
+	
+	//Remove Auction based on Id
 	@DeleteMapping("/product/end/{id}")
 	public void endAuction(@PathVariable long id){
 		repo.deleteById(id);

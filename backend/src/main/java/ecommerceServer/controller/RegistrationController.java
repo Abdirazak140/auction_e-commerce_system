@@ -24,6 +24,7 @@ public class RegistrationController {
 	@Autowired
 	private RegistrationService registrationService;
 	
+	//Create new User account
 	@PutMapping("/register")
 	public ResponseEntity<String> register(@RequestBody User user){
 		

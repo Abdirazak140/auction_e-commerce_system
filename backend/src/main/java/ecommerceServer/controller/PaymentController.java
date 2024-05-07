@@ -20,6 +20,7 @@ public class PaymentController {
 	@Autowired
 	private PaymentService paymentService;
 	
+	//Submit Payment Request
 	@PostMapping("/pay")
 	public ResponseEntity<PaymentResult> login(@RequestBody PaymentRequest PaymentRequest){
 		PaymentResult result = paymentService.makePayment(PaymentRequest);
