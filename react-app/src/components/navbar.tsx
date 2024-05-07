@@ -25,8 +25,6 @@ export default function Navbar() {
             if (sessionId) {
                 try {
                     const response = await axios.post(`http://localhost:8080/api/users/getAuthState?sessionId=${sessionId}`);
-                    console.log(sessionId)
-                    console.log(response.data);
 
                     if (response.data === true) {
                         setLoggedIn(true)

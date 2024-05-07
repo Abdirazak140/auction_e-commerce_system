@@ -23,7 +23,7 @@ const Receipt = () => {
           }
           else {
             try {
-              const response = await axios.post(`http://localhost:8080/api/users/user?sessionId=${sessionId}`);
+              const response = await axios.get(`http://localhost:8080/api/users/user?sessionId=${sessionId}`);
               setUserInfo(response.data)
               console.log(response)
               console.log(userInfo);

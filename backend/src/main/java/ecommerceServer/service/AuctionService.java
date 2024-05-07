@@ -83,7 +83,7 @@ public class AuctionService {
             return new AuctionResponse(false, "Must be logged in");
         } else {
             if (auction.getAuctionStatus() != 1) {
-                return new AuctionResponse(false, "Auction is not open for bidding");
+                return new AuctionResponse(true, "Auction is not open for bidding");
             }
 
             auction.setAuctionStatus(0); 

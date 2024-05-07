@@ -17,24 +17,35 @@ const AuctionEndPage = () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/catalogue/product/all/id/${id}`);
                 
-                const productData = response.data
+                const productData = response.data;
+                console.log(productData);
 
-                try {
-                    const response = await axios.get(`http://localhost:8080/api/users/user?sessionId=${sessionId}`);
-                    setUserInfo(response.data)
-                } catch (error) {
-                    console.log(error);
+                const fetchUserData = async () => {
+                    try {
+                        const response = await axios.get(`http://localhost:8080/api/users/user?sessionId=${sessionId}`);
+                        const userData = response.data;
+                        setUserInfo(userData);
+                        console.log(userInfo);
+                        console.log(productData.currentWinnerID, userData.id);
+                        if (productData.currentWinnerID === userData.id) {
+                            setIsWinner(true);
+                        } else {
+                            setIsWinner(false);
+                        }
+                    } catch (error) {
+                        console.log(error);
+                    }
                 }
 
-                if (productData.currentWinnerID === userInfo.id) {
-                    setIsWinner(true)
-                }
+                fetchUserData();
+
+
             } catch (error) {
                 console.error(error);
             }
         };
         fetchData();
-    }, []);
+    }, [id, sessionId]); 
 
     useEffect(() => {
         const fetchAuthState = async () => {

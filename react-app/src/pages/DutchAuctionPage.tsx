@@ -13,7 +13,7 @@ export default function DutchAuctionBidPage() {
     const [endTime, setEndTime] = useState("");
     const [itemName, setItemName] = useState("");
     const [errorMsg, setErrorMsg] = useState("")
-    const [userInfo, setUserInfo] = useState<any>({})
+    const [userId, setUserId] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -47,13 +47,36 @@ export default function DutchAuctionBidPage() {
     }, [])
 
 
+
+    useEffect(() => {
+        const fetchUserId = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/users/userId?sessionId=${sessionId}`);
+                setUserId(response.data);
+            } catch (error) {
+                console.error('Error fetching user ID:', error);
+            }
+        };
+
+        fetchUserId();
+    }, []);
+
     const handleBuyNow = async () => {
         try {
             const response = await axios.post(`http://localhost:8080/api/auctions/buyProduct?auctionId=${id}&sessionId=${sessionId}`);
-            console.log(response);
             setErrorMsg(response.data.msg)
             if (response.data.successful) {
-                navigate(`/auction-end/${id}/${currentPrice}`);
+                const updateAuction = async () => {
+                    try {
+                        const response = await axios.put(`http://localhost:8080/api/catalogue/product/update/${id}/${currentPrice}?bidderId=${userId}`);
+                        console.log("Ryan:", response.data);
+                    } catch (error) {
+                        console.error("Error buying now: ", error);
+                    }
+                }
+
+                updateAuction();
+                // navigate(`/auction-end/${id}/${currentPrice}`);
             }
         } catch (error) {
             console.error("Error buying now: ", error);

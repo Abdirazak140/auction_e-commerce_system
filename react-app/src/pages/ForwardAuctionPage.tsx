@@ -21,6 +21,7 @@ export default function ForwardAuctionBidPage() {
                 setCurrentPrice(response.data.currentBid)
                 setItemName(response.data.name)
                 setEndTime(response.data.endTime)
+                console.log(response)
             } catch (error) {
                 console.error(error);
             }
@@ -33,9 +34,6 @@ export default function ForwardAuctionBidPage() {
             if (sessionId) {
                 try {
                     const response = await axios.post(`http://localhost:8080/api/users/getAuthState?sessionId=${sessionId}`);
-                    console.log(sessionId)
-                    console.log(response.data);
-
                     if (response.data === false) {
                         navigate(`/login`);
                     }
@@ -83,7 +81,7 @@ export default function ForwardAuctionBidPage() {
                     />
                 </div>
                 <span className="text-xl text-gray-500 mt-4">{errorMsg}</span>
-                <div style={{bottom: '15%', position: 'absolute'}}>
+                <div className="mt-4">
                 <button className="w-96 cursor-pointer bg-purple-600 text-white py-4 px-4 rounded-md hover:bg-purple-700 transition duration-300" 
                 onClick={handleBid}
                 >
