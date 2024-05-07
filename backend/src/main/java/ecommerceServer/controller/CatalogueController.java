@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -125,7 +126,11 @@ public class CatalogueController {
 		return cataServe.getProductPicture(id);
 	}
 	
-	
+	//Get All Products Sold By User
+	@GetMapping("/product/seller")
+	public List<Product> getProductBySeller(@RequestParam long sellerId){
+		return CatalogueFunction.filterProductBySeller(repo.findAll(), sellerId);
+	}
 	
 	//Put Commands (Update values of bids)
 	@PutMapping("/product/update/{id}/{value}")

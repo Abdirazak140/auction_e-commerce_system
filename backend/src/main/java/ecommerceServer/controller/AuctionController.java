@@ -16,6 +16,9 @@ public class AuctionController {
     @Autowired
     private AuctionService auctionService;
 
+    
+    
+    
     @PostMapping("/placeBid")
     public ResponseEntity<AuctionResponse> placeBid(
             @RequestParam Long auctionId,
@@ -35,4 +38,6 @@ public class AuctionController {
             return ResponseEntity.ok(response);
 
     }
+    
+    
 }

@@ -40,4 +40,19 @@ public class CatalogueFunction {
 		}
 	}
 	
+	public static List<Product> filterProductBySeller(List<Product> productList, long sellerId){
+		List<Product> tmp = new ArrayList<Product>();
+		List<Product> full = productList;
+		for (int i = 0; i < full.size(); i++) {
+			if (full.get(i).getSellerId() == sellerId) {
+				tmp.add(full.get(i));
+			}
+		}
+		if (tmp.size() < 1) {
+			throw new ProductNotFoundException(sellerId);
+		}
+		else {
+			return tmp;
+		}
+	}
 }
