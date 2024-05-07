@@ -76,7 +76,7 @@ export default function DutchAuctionBidPage() {
                 }
 
                 updateAuction();
-                // navigate(`/auction-end/${id}/${currentPrice}`);
+                navigate(`/auction-end/${id}/${currentPrice}`);
             }
         } catch (error) {
             console.error("Error buying now: ", error);

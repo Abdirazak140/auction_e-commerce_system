@@ -13,6 +13,7 @@ export default function ForwardAuctionBidPage() {
     const [itemName, setItemName] = useState("");
     const [bidAmount, setBidAmount] = useState(0);
     const [errorMsg, setErrorMsg] = useState("")
+    const [userId, setUserId] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -45,10 +46,40 @@ export default function ForwardAuctionBidPage() {
         fetchAuthState();
     }, [])
 
+    useEffect(() => {
+        const fetchUserId = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/users/userId?sessionId=${sessionId}`);
+                setUserId(response.data);
+            } catch (error) {
+                console.error('Error fetching user ID:', error);
+            }
+        };
+
+        fetchUserId();
+    }, []);
+
+
     const handleBid = async () => {
         try {
             const response = await axios.post(`http://localhost:8080/api/auctions/placeBid?auctionId=${id}&bidAmount=${bidAmount}&sessionId=${sessionId}`);
             setErrorMsg(response.data.msg)
+
+            if (response.data.successful) {
+                const updateAuction = async () => {
+                    try {
+                        const response = await axios.put(`http://localhost:8080/api/catalogue/product/update/${id}/${bidAmount}?bidderId=${userId}`);
+                        console.log("Ryan:", response.data);
+                    } catch (error) {
+                        console.error("Error buying now: ", error);
+                    }
+                }
+
+                updateAuction();
+
+                setCurrentPrice(bidAmount.toString())
+            }
+
             console.log(response);  
         } catch (error) {
             console.error("Error buying now: ", error);  
