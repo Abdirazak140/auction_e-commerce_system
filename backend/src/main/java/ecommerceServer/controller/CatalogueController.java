@@ -158,7 +158,7 @@ public class CatalogueController {
 					prod.getCurrentBid()
 				);
 				dutchAucRepo.save(newAuction);
-				String tmp = "Product of name " + prod.getName() + " has been listed for auction with id " + prod.getId();
+				String tmp = "" + prod.getId();
 				return ResponseEntity.ok(new CatalogueResponse(true, tmp));
 			}
 			else if (prod.getAuctionType().equals("forward")){
@@ -168,7 +168,7 @@ public class CatalogueController {
 					prod.getEndTime()
 				);
 				forwardAucRepo.save(newAuction);
-				String tmp = "Product of name " + prod.getName() + " has been listed for auction with id " + prod.getId();
+				String tmp = "" + prod.getId();
 				return ResponseEntity.ok(new CatalogueResponse(true, tmp));
 			}
 			else {
@@ -183,7 +183,6 @@ public class CatalogueController {
 		if (repo.findById(newPicture.getId()) != null) {
 			Picture pic = new Picture(
 					newPicture.getId(),
-					newPicture.getName(),
 					newPicture.getPicture());
 			return ResponseEntity.ok(new CatalogueResponse(true, "Image uploaded succesfully"));
 		}

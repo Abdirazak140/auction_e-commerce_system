@@ -6,7 +6,6 @@ import jakarta.persistence.Id;
 @Entity
 public class Picture {
 	private byte[] picture;
-	private String name;
 	
 	@Id
 	private long id;
@@ -15,9 +14,8 @@ public class Picture {
 		
 	}
 	
-	public Picture(long id, String name, byte[] picture) {
+	public Picture(long id, byte[] picture) {
 		this.id = id;
-		this.name = name;
 		this.picture = picture;
 	}
 
@@ -27,14 +25,6 @@ public class Picture {
 
 	public void setPicture(byte[] picture) {
 		this.picture = picture;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public long getId() {
