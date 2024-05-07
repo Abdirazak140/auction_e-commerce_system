@@ -40,6 +40,7 @@ public class LoginController {
 	@Autowired
 	private SessionRepository sessionRepository;
 	
+	//Get all current User Info
 	@GetMapping("/user")
 	public User getUserInfo(@RequestParam String sessionId) {
 		Session session = sessionRepository.findBySessionId(sessionId);
@@ -47,6 +48,7 @@ public class LoginController {
 		return user;
 	}
 	
+	//Get current User Id
 	@GetMapping("/userId")
 	public long getUserId(@RequestParam String sessionId) {
 		Session session = sessionRepository.findBySessionId(sessionId);
@@ -54,7 +56,7 @@ public class LoginController {
 		return user.getId();
 	}
 	
-	
+	//Login Request
 	@PostMapping("/login")
 	public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest){
 		String username = loginRequest.getUsername();
@@ -69,6 +71,7 @@ public class LoginController {
 		}
 	}
 	
+	//Get Authentication State of session
 	@PostMapping("/getAuthState")
 	public ResponseEntity<Boolean> getAuthenticationState(@RequestParam String sessionId){
         Session session = sessionRepository.findBySessionId(sessionId);
@@ -78,6 +81,7 @@ public class LoginController {
         return ResponseEntity.ok(session.isAuthState());
 	}
 	
+	//Remove User from being logged in
 	@DeleteMapping("/logout")
 	public ResponseEntity<String> logout(@RequestParam String sessionId) {
 	    Session session = sessionRepository.findBySessionId(sessionId);
@@ -90,7 +94,7 @@ public class LoginController {
 	    }
 	}
 
-	
+	//Update Password
 	@PatchMapping("/reset-password")
 	public ResponseEntity<String> resetPassword(@RequestBody LoginRequest loginRequest){
 		String username = loginRequest.getUsername();

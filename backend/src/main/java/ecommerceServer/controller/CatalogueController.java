@@ -95,12 +95,14 @@ public class CatalogueController {
 		return CollectionModel.of(agr, linkTo(methodOn(CatalogueController.class).getProductByName(name)).withSelfRel());
 	}
 	
+	//Get All Dutch Auctions
 	@GetMapping("/product/dutch")
 	public CollectionModel<EntityModel<Product>> getDutch(){
 		List<EntityModel<Product>> agr = CatalogueFunction.filterProductByType(repo.findAll(), "dutch").stream().map(assembler::toModel).collect(Collectors.toList());
 		return CollectionModel.of(agr, linkTo(methodOn(CatalogueController.class).getDutch()).withSelfRel());
 	}
 	
+	//Get All Forward Auctions
 	@GetMapping("/product/forward")
 	public CollectionModel<EntityModel<Product>> getForward(){
 		List<EntityModel<Product>> agr = CatalogueFunction.filterProductByType(repo.findAll(), "forward").stream().map(assembler::toModel).collect(Collectors.toList());
@@ -119,7 +121,6 @@ public class CatalogueController {
 		return CatalogueFunction.filterProductByType(CatalogueFunction.filterProductByName(repo.findAll(), name), "forward");
 	}
 	
-	
 	//Get Product Image Upon Request
 	@GetMapping("/product/image/{id}")
 	public byte[] getProductImage(@PathVariable long id) {
@@ -132,7 +133,10 @@ public class CatalogueController {
 		return CatalogueFunction.filterProductBySeller(repo.findAll(), sellerId);
 	}
 	
+	
 	//Put Commands (Update values of bids)
+	
+	//Update Value of Bids (Forward and Dutch)
 	@PutMapping("/product/update/{id}/{value}")
 	public ResponseEntity<CatalogueResponse> updateBid(@PathVariable long id, @PathVariable double value) {
 		CatalogueResponse response = cataServe.updateBid(id, value);
@@ -149,6 +153,8 @@ public class CatalogueController {
 	
 	
 	//Post Commands (Create New Auctions)
+	
+	//Add new product to catalogue
 	@PostMapping("/product/sell")
 	public ResponseEntity<CatalogueResponse> createAuction(@RequestBody Product newProduct) throws ProductNotFoundException {
 		if (!cataServe.inputCheck(newProduct)) {
@@ -185,6 +191,7 @@ public class CatalogueController {
 		
 	}
 	
+	//Add image to product listing
 	@PostMapping("/product/sell/adv")
 	public ResponseEntity<CatalogueResponse> createPicture(@RequestBody Picture newPicture) throws ProductNotFoundException {
 		if (repo.findById(newPicture.getId()) != null) {
@@ -200,6 +207,8 @@ public class CatalogueController {
 
 
 	//Delete Commands (Auction Finish)
+	
+	//Remove Auction based on Id
 	@DeleteMapping("/product/end/{id}")
 	public void endAuction(@PathVariable long id){
 		repo.deleteById(id);
