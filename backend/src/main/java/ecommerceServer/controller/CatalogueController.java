@@ -130,7 +130,7 @@ public class CatalogueController {
 	
 	//Put Commands (Update values of bids)
 	
-	//Update Value of Bids (Forward and Dutch)
+	//Update Value of (Bid on Forward, Purchase on Dutch)
 	@PutMapping("/product/update/{id}/{value}")
 	public ResponseEntity<CatalogueResponse> updateBid(@PathVariable long id, @PathVariable double value, @RequestParam long bidderId) {
 		CatalogueResponse response = cataServe.updateBid(id, value, bidderId);
@@ -143,6 +143,13 @@ public class CatalogueController {
 				})
 				.orElseThrow(() -> new AuctionNotFoundException("Auction with that ID does not exist"));
 		*/
+	}
+	
+	//Updates Buy It Now price for dutch auctions (Seller Endpoint)
+	@PutMapping("/product/update/{id}/{value}")
+	public ResponseEntity<CatalogueResponse> updateDutchPrice(@PathVariable long auctionId, @PathVariable double value, @RequestParam long sellerId){
+		CatalogueResponse response = cataServe.setDutchPrice(auctionId, value, sellerId);
+		return ResponseEntity.ok(response);
 	}
 	
 	
