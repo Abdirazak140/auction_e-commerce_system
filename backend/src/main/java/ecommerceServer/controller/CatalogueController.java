@@ -121,7 +121,7 @@ public class CatalogueController {
 	
 	//Get Product Image Upon Request
 	@GetMapping("/product/image/{id}")
-	public Byte[] getProductImage(@PathVariable long id) {
+	public byte[] getProductImage(@PathVariable long id) {
 		return cataServe.getProductPicture(id);
 	}
 	
