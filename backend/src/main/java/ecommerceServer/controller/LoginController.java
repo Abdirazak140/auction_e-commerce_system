@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import ecommerceServer.connection.AuthenticationMessage;
 import ecommerceServer.connection.LoginRequest;
 import ecommerceServer.entity.Session;
+import ecommerceServer.entity.User;
+import ecommerceServer.exception.UserNotFoundException;
 import ecommerceServer.repository.SessionRepository;
+import ecommerceServer.repository.UserRepository;
 import ecommerceServer.service.LoginService;
 import jakarta.servlet.http.HttpSession;
 
@@ -29,8 +32,11 @@ public class LoginController {
 	@Autowired
 	private LoginService loginService;
 	
-	@Autowired
-	private SessionRepository sessionRepository;
+    @Autowired
+    private UserRepository userRepository;
+    
+    @Autowired
+    private SessionRepository sessionRepository;
 	
 	@PostMapping("/login")
 	public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest){
@@ -81,4 +87,11 @@ public class LoginController {
 			return ResponseEntity.ok("Error: "+ result.getMsg());
 		}
 	}
+	
+	@PostMapping("/user")
+    public User getUserInfo(@RequestParam String sessionId) {
+        Session session = sessionRepository.findBySessionId(sessionId);
+        User user = userRepository.findById(session.getUserId()).orElseThrow(() -> new UserNotFoundException(session.getUserId()));
+        return user;
+    }
 }
