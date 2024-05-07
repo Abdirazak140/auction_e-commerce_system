@@ -132,8 +132,8 @@ public class CatalogueController {
 	
 	//Update Value of Bids (Forward and Dutch)
 	@PutMapping("/product/update/{id}/{value}")
-	public ResponseEntity<CatalogueResponse> updateBid(@PathVariable long id, @PathVariable double value) {
-		CatalogueResponse response = cataServe.updateBid(id, value);
+	public ResponseEntity<CatalogueResponse> updateBid(@PathVariable long id, @PathVariable double value, @RequestParam long bidderId) {
+		CatalogueResponse response = cataServe.updateBid(id, value, bidderId);
 		return ResponseEntity.ok(response);
 		/*
 		return repo.findById(id)

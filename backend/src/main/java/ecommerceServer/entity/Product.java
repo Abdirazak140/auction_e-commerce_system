@@ -16,14 +16,14 @@ public class Product {
 	private double currentBid;
 	//Time format "yyyy-MM-dd HH:mm"
 	private String endTime;
-	private int currentWinnerID;
+	private long currentWinnerID;
 	private String auctionType;
 	private long sellerId;
 	
 	Product() {}
 	
 	//
-	public Product(String name, double cb, String time, int winID, String aucType, long sellerId) {
+	public Product(String name, double cb, String time, long winID, String aucType, long sellerId) {
 		this.name = name;
 		this.currentBid = cb;
 		this.endTime = time;
@@ -73,10 +73,10 @@ public class Product {
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
-	public int getCurrentWinnerID() {
+	public long getCurrentWinnerID() {
 		return currentWinnerID;
 	}
-	public void setCurrentWinnerID(int currentWinnerID) {
+	public void setCurrentWinnerID(long currentWinnerID) {
 		this.currentWinnerID = currentWinnerID;
 	}
 	public String getAuctionType() {
