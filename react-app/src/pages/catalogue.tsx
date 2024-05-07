@@ -62,6 +62,24 @@ export default function Catalogue() {
         fetchAuthState();
     }, [])
 
+    useEffect(() => {
+        setLoading(true);
+        const fetchCatalogue = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/catalogue/product/all/name/${searchedQuery}`);
+                setItems(response.data._embedded.productList)
+                setFilteredItems(selectedAuctionType === 'All' ? items : items.filter(item => item.auctionType === selectedAuctionType));
+    
+                console.log(items)
+            } catch (error) {
+                console.error(error);
+            }
+            setLoading(false);
+        }
+
+        fetchCatalogue();
+    }, [])
+
     return (
         <div>
             <Navbar />

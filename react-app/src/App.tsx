@@ -31,9 +31,7 @@ function App() {
           <Route path="/forward-auction-bid/:id" element={<ForwardAuctionBidPage />} />
           <Route path="/dutch-auction-bid/:id" element={<DutchAuctionBidPage />} />
           <Route path="/sell-item" element={<SellItemPage />} /> 
-
-
-          <Route path="/auction-end" element={<AuctionEndPage />} /> 
+          <Route path="/auction-end/:id/:price" element={<AuctionEndPage />} /> 
           
           <Route path="/update-dutch-auction-price" element={<UpdateDutchAuctionPrice />} /> 
           <Route path="/auction-history" element={<AuctionHistory />} /> 

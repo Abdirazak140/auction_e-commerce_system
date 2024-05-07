@@ -107,10 +107,4 @@ public class LoginController {
 		}
 	}
 	
-	@PostMapping("/user")
-    public User getUserInfo(@RequestParam String sessionId) {
-        Session session = sessionRepository.findBySessionId(sessionId);
-        User user = userRepository.findById(session.getUserId()).orElseThrow(() -> new UserNotFoundException(session.getUserId()));
-        return user;
-    }
 }

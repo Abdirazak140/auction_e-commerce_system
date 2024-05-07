@@ -13,7 +13,6 @@ export default function DutchAuctionBidPage() {
     const [endTime, setEndTime] = useState("");
     const [itemName, setItemName] = useState("");
     const [errorMsg, setErrorMsg] = useState("")
-    const [isWinner, setIsWinner] = useState(false);
     const [userInfo, setUserInfo] = useState<any>({})
 
     useEffect(() => {
@@ -24,17 +23,6 @@ export default function DutchAuctionBidPage() {
                 setItemName(response.data.name)
                 setEndTime(response.data.endTime)
                 console.log(response.data)
-
-                try {
-                    const response = await axios.post(`http://localhost:8080/api/users/user?sessionId=${sessionId}`);
-                    setUserInfo(response.data)
-                } catch (error) {
-                    console.log(error);
-                }
-
-                if (response.data.currentWinnerID === userInfo.id) {
-                    setIsWinner(true)
-                }
             } catch (error) {
                 console.error(error);
             }
@@ -64,8 +52,8 @@ export default function DutchAuctionBidPage() {
             const response = await axios.post(`http://localhost:8080/api/auctions/buyProduct?auctionId=${id}&sessionId=${sessionId}`);
             console.log(response);
             setErrorMsg(response.data.msg)
-            if (response.data.successful || isWinner) {
-                navigate(`/payment/${id}/${currentPrice}`);
+            if (response.data.successful) {
+                navigate(`/auction-end/${id}/${currentPrice}`);
             }
         } catch (error) {
             console.error("Error buying now: ", error);
@@ -91,7 +79,7 @@ export default function DutchAuctionBidPage() {
                         <div style={{ bottom: '30.5%', position: 'absolute' }}>
                             <button className="w-96 cursor-pointer bg-purple-600 text-white py-4 px-4 rounded-md hover:bg-purple-700 transition duration-300"
                                 onClick={handleBuyNow}
-                            >{isWinner ? "Finish payment" : "Buy now"}</button>
+                            >Buy Now</button>
                         </div>
                     </div>
                 </div>

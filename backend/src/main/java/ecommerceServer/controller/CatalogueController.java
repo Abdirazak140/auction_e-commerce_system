@@ -116,12 +116,12 @@ public class CatalogueController {
 		return CatalogueFunction.filterProductByType(CatalogueFunction.filterProductByName(repo.findAll(), name), "forward");
 	}
 	
-	//Get Product Image Upon Request
-	@GetMapping("/product/image/{id}")
-	public byte[] getProductImage(@PathVariable long id) {
-		return cataServe.getProductPicture(id);
-	}
-	
+//	//Get Product Image Upon Request
+//	@GetMapping("/product/image/{id}")
+//	public byte[] getProductImage(@PathVariable long id) {
+//		return cataServe.getProductPicture(id);
+//	}
+//	
 	//Get All Products Sold By User
 	@GetMapping("/product/seller")
 	public List<Product> getProductBySeller(@RequestParam long sellerId){
@@ -186,18 +186,18 @@ public class CatalogueController {
 	}
 	
 	//Add image to product listing
-	@PostMapping("/product/sell/adv")
-	public ResponseEntity<CatalogueResponse> createPicture(@RequestBody Picture newPicture) throws ProductNotFoundException {
-		if (repo.findById(newPicture.getId()) != null) {
-			Picture pic = new Picture(
-					newPicture.getId(),
-					newPicture.getPicture());
-			return ResponseEntity.ok(new CatalogueResponse(true, "Image uploaded succesfully"));
-		}
-		else {
-			return ResponseEntity.ok(new CatalogueResponse(false, "Invalid"));
-		}
-	}
+//	@PostMapping("/product/sell/adv")
+//	public ResponseEntity<CatalogueResponse> createPicture(@RequestBody Picture newPicture) throws ProductNotFoundException {
+//		if (repo.findById(newPicture.getId()) != null) {
+//			Picture pic = new Picture(
+//					newPicture.getId(),
+//					newPicture.getPicture());
+//			return ResponseEntity.ok(new CatalogueResponse(true, "Image uploaded succesfully"));
+//		}
+//		else {
+//			return ResponseEntity.ok(new CatalogueResponse(false, "Invalid"));
+//		}
+//	}
 
 
 	//Delete Commands (Auction Finish)
