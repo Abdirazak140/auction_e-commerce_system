@@ -47,6 +47,13 @@ public class LoginController {
 		return user;
 	}
 	
+	@GetMapping("/userId")
+	public long getUserId(@RequestParam String sessionId) {
+		Session session = sessionRepository.findBySessionId(sessionId);
+		User user = userRepository.findById(session.getUserId()).orElseThrow(() -> new UserNotFoundException(session.getUserId()));
+		return user.getId();
+	}
+	
 	
 	@PostMapping("/login")
 	public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest){
