@@ -18,31 +18,35 @@ public class Product {
 	private String endTime;
 	private int currentWinnerID;
 	private String auctionType;
+	private long sellerId;
 	
 	Product() {}
 	
 	//
-	public Product(String name, double cb, String time, int winID, String aucType) {
+	public Product(String name, double cb, String time, int winID, String aucType, long sellerId) {
 		this.name = name;
 		this.currentBid = cb;
 		this.endTime = time;
 		this.currentWinnerID = winID;
 		this.auctionType = aucType;
+		this.sellerId = sellerId;
 	}
 	
 	//Dutch Auction
-	public Product(String name, double startingBid, String aucType) {
+	public Product(String name, double startingBid, String aucType, long sellerId) {
 		this.name = name;
 		this.currentBid = startingBid;
 		this.auctionType = aucType;
+		this.sellerId = sellerId;
 	}
 	
 	//Forward Auction
-	public Product(String name, double startingBid, String time, String aucType) {
+	public Product(String name, double startingBid, String time, String aucType, long sellerId) {
 		this.name = name;
 		this.currentBid = startingBid;
 		this.endTime = time;
 		this.auctionType = aucType;
+		this.sellerId = sellerId;
 	}
 	
 	public Long getId() {
@@ -80,6 +84,12 @@ public class Product {
 	}
 	public void setAuctionType(String auctionType) {
 		this.auctionType = auctionType;
+	}
+	public long getSellerId() {
+		return this.sellerId;
+	}
+	public void setSellerId(long id) {
+		this.sellerId = id;
 	}
 	
 	@Override

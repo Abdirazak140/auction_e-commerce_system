@@ -16,15 +16,17 @@ public class DutchAuction {
 	private int auctionStatus;
 	private long buyerId;
 	private double currentPrice;
+	private long sellerId;
 	
 	public DutchAuction() {
 	}
 
-	public DutchAuction(long productId, double startingPrice) {
+	public DutchAuction(long productId, double startingPrice, long userId) {
 		this.setId(productId);
 		this.setCurrentPrice(startingPrice);
 		this.setProductId(productId);
 		this.setAuctionStatus(1);
+		this.setSellerId(userId);
 	}
 
 	public long getBuyerId() {
@@ -72,4 +74,11 @@ public class DutchAuction {
 		this.id = id;
 	}
 
+	public long getSellerId() {
+		return sellerId;
+	}
+	
+	public void setSellerId(long id) {
+		this.sellerId = id;
+	}
 }

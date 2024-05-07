@@ -20,16 +20,18 @@ public class ForwardAuction {
 	  private String endTime;
 	  private double highestBid;
 	  private long currentHighestBidderId;
+	  private long sellerId;
   
   	public ForwardAuction() {
 	}
   
-	public ForwardAuction(long productId, double startingPrice, String endTime) {
+	public ForwardAuction(long productId, double startingPrice, String endTime, long sellerId) {
 		this.setId(productId);
 		this.setProductId(productId);
 		this.setStartingPrice(startingPrice);
 		this.setAuctionStatus(1);
 		this.setEndTime(endTime);
+		this.setSellerId(sellerId);
 	}
 
 	public double getHighestBid() {
@@ -86,6 +88,14 @@ public class ForwardAuction {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public long getSellerId() {
+		return sellerId;
+	}
+	
+	public void setSellerId(long id) {
+		this.sellerId = id;
 	}
 	
 }

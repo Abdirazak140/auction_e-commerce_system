@@ -155,7 +155,8 @@ public class CatalogueController {
 			if (prod.getAuctionType().equals("dutch")){
 				DutchAuction newAuction = new DutchAuction(
 					prod.getId(),
-					prod.getCurrentBid()
+					prod.getCurrentBid(),
+					prod.getSellerId()
 				);
 				dutchAucRepo.save(newAuction);
 				String tmp = "" + prod.getId();
@@ -165,7 +166,8 @@ public class CatalogueController {
 				ForwardAuction newAuction = new ForwardAuction(
 					prod.getId(),
 					prod.getCurrentBid(),
-					prod.getEndTime()
+					prod.getEndTime(),
+					prod.getSellerId()
 				);
 				forwardAucRepo.save(newAuction);
 				String tmp = "" + prod.getId();
