@@ -178,7 +178,19 @@ public class CatalogueController {
 		
 	}
 	
-	
+	@PostMapping("/product/sell/adv")
+	public ResponseEntity<CatalogueResponse> createPicture(@RequestBody Picture newPicture) throws ProductNotFoundException {
+		if (repo.findById(newPicture.getId()) != null) {
+			Picture pic = new Picture(
+					newPicture.getId(),
+					newPicture.getName(),
+					newPicture.getPicture());
+			return ResponseEntity.ok(new CatalogueResponse(true, "Image uploaded succesfully"));
+		}
+		else {
+			return ResponseEntity.ok(new CatalogueResponse(false, "Invalid"));
+		}
+	}
 
 
 	//Delete Commands (Auction Finish)
