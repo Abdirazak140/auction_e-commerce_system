@@ -9,56 +9,59 @@ export default function Login() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [errorMsg, setErrorMsg] = useState("")
+    const [isLoading, setLoading] = useState(false)
     const navigate = useNavigate();
 
-    // const handleSubmit = async (event: any) => {
-    //     event.preventDefault();
+    const handleSubmit = async (event: any) => {
+        event.preventDefault();
+        setLoading(true)
+        try {
+            const response = await axios.post("http://localhost:8080/api/users/login", {
+                username,
+                password
+            })
+            console.log(response.data)
+            if (response.data.substring(0, 5) === "Error"){
+                setErrorMsg(response.data.substring(6));
+            }
+            else{
+                localStorage.setItem('sessionId', response.data);
+                navigate(`/dashboard`);
+            }
+            setLoading(false)
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
-    //     try {
-    //         const response = await axios.post("http://localhost:8080/api/users/login", {
-    //             username,
-    //             password
-    //         })
-    //         console.log(response.data)
-    //         if (response.data.substring(0, 5) === "Error"){
-    //             setErrorMsg(response.data.substring(6));
-    //         }
-    //         else{
-    //             localStorage.setItem('sessionId', response.data);
-    //             navigate("/dashboard")
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
+    useEffect(() => {
+        const fetchAuthState = async () => {
+            const sessionId = window.localStorage.getItem('sessionId');
 
-    // useEffect(() => {
-    //     const fetchAuthState = async () => {
-    //         const sessionId = window.localStorage.getItem('sessionId');
+            if (sessionId) {
+                try {
+                    const response = await axios.post(`http://localhost:8080/api/users/getAuthState?sessionId=${sessionId}`);
+                    console.log(sessionId)
+                    console.log(response.data);
 
-    //         if (sessionId) {
-    //             try {
-    //                 const response = await axios.post(`http://localhost:8080/api/users/getAuthState?sessionId=${sessionId}`);
-    //                 console.log(sessionId)
-    //                 console.log(response.data);
-
-    //                 if (response.data === true) {
-    //                     navigate("/dashboard");
-    //                 }
-    //             } catch (error) {
-    //                 console.log(error);
-    //             }
-    //         }
-    //     };
-    //     fetchAuthState();
-    // }, [])
+                    if (response.data === true) {
+                        navigate(`/dashboard/${sessionId}`);
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        };
+        fetchAuthState();
+    }, [])
 
     return (
         <body>
-            {/* <LoadingScreen/>   */}
+            {isLoading ? (<LoadingScreen/> ) : null}
+             
             <Navbar/> 
             <div className="h-screen w-screen flex justify-center items-start pt-12">
-                <form className="px-24 py-20 w-full h-form">
+                <form className="px-24 py-20 w-full h-form" onSubmit={handleSubmit}>
                     <div className="flex flex-col w-full h-full justify-center items-center">
                         <span className="font-semibold text-3xl w-full flex justify-center text-left mb-12">Login to your account</span>
                         <div className="space-y-3">

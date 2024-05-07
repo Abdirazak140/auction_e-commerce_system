@@ -1,9 +1,33 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/dashboard.css'; // Choose the correct import statement based on your project structure
 import Navbar from '../components/navbar';
+import axios from 'axios';
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    const fetchAuthState = async () => {
+      const sessionId = window.localStorage.getItem('sessionId');
+
+      if (sessionId) {
+        try {
+          const response = await axios.post(`http://localhost:8080/api/users/getAuthState?sessionId=${sessionId}`);
+          console.log(sessionId)
+          console.log(response.data);
+
+          if (response.data === false) {
+            navigate(`/login`);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+    fetchAuthState();
+  }, [])
+
   return (
     <div>
       <Navbar />

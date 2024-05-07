@@ -26,15 +26,14 @@ function App() {
           <Route path="/signup" element={<Signup/>}/>
           <Route path="/item-search" element={<Search />} />
           <Route path="/item-search/:item" element={<Catalogue/>} />
-          <Route path="/payment" element={<Payment />} /> 
-          <Route path="/receipt" element={<Receipt />} /> 
-
+          <Route path="/payment/:id/:price" element={<Payment />} /> 
+          <Route path="/receipt/:id/:price" element={<Receipt />} /> 
+          <Route path="/dashboard" element={<Dashboard/>}/>
+          <Route path="/forward-auction-bid/:id" element={<ForwardAuctionBidPage />} />
+          <Route path="/dutch-auction-bid/:id" element={<DutchAuctionBidPage />} />
 
           <Route path="/products" element={<ProductTable />} />
 
-          <Route path="/dashboard" element={<Dashboard/>}/>
-          <Route path="/forward-auction-bid" element={<ForwardAuctionBidPage />} />
-          <Route path="/dutch-auction-bid" element={<DutchAuctionBidPage />} />
           <Route path="/auction-end" element={<AuctionEndPage />} /> 
           <Route path="/sell-item" element={<SellItemPage />} /> 
           <Route path="/update-dutch-auction-price" element={<UpdateDutchAuctionPrice />} /> 
