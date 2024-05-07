@@ -1,10 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../styles/Payment.css';
 import Navbar from '../components/navbar';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 //import { Link, useLocation } from 'react-router-dom'
 //<!-- <Link to="/Receipt" className='submit'>SUBMIT</Link> -->   
 
 const Receipt = () => {
+  const sessionId = window.localStorage.getItem('sessionId');
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    const fetchAuthState = async () => {
+      if (sessionId) {
+        try {
+          const response = await axios.post(`http://localhost:8080/api/users/getAuthState?sessionId=${sessionId}`);
+          console.log(sessionId)
+          console.log(response.data);
+
+          if (response.data === false) {
+            navigate(`/login`);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+    fetchAuthState();
+  }, []);
   return (
     <>
       <div className='flex flex-row justify-evenly h-screen w-screen py-10 bg-gradient-to-r from-white to-blue-100'>

@@ -1,7 +1,8 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar";
+import LoadingScreen from "../components/loading";
 
 export default function Signup() {
     const [username, setUsername] = useState("");
@@ -13,42 +14,67 @@ export default function Signup() {
     const [postalCode, setPostalCode] = useState("");
     const [password, setPassword] = useState("");
     const [errorMsg, setErrorMsg] = useState("")
+    const [isLoading, setLoading] = useState(false)
     const navigate = useNavigate();
 
-    // const handleSubmit = async (event: any) => {
-    //     event.preventDefault();
+    const handleSubmit = async (event: any) => {
+        event.preventDefault();
+        setLoading(true)
+        try {
+            const response = await axios.put("http://localhost:8080/api/users/register", {
+                username,
+                password,
+                fname,
+                lname,
+                address,
+                city,
+                country,
+                postalCode,
+            })
+            console.log(response.data)
+            if (response.data.substring(0, 5) === "Error"){
+                setErrorMsg(response.data.substring(6));
+            }   
+            else{
+                localStorage.setItem('sessionId', response.data);
+                navigate("/dashboard")
+            }
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
-    //     try {
-    //         const response = await axios.put("http://localhost:8080/api/users/register", {
-    //             username,
-    //             password,
-    //             fname,
-    //             lname,
-    //             address,
-    //             city,
-    //             country,
-    //             postalCode,
-    //         })
-    //         console.log(response.data)
-    //         if (response.data.substring(0, 5) === "Error"){
-    //             setErrorMsg(response.data.substring(6));
-    //         }
-    //         else{
-    //             localStorage.setItem('sessionId', response.data);
-    //             navigate("/dashboard")
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
+    useEffect(() => {
+        const fetchAuthState = async () => {
+            const sessionId = window.localStorage.getItem('sessionId');
 
+            if (sessionId) {
+                try {
+                    const response = await axios.post(`http://localhost:8080/api/users/getAuthState?sessionId=${sessionId}`);
+                    console.log(sessionId)
+                    console.log(response.data);
+
+                    if (response.data === true) {
+                        navigate(`/dashboard/${sessionId}`);
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        };
+        fetchAuthState();
+    }, [])
+    
     return (
         <div>
+            {isLoading ? (<LoadingScreen/> ) : null}
+
             <Navbar />
 
             <div className="h-screen w-screen flex justify-center items-start pt-20">
 
-                <form className="px-24 py-20 w-full h-form">
+                <form className="px-24 py-20 w-full h-form" onSubmit={handleSubmit}>
                     <div className="flex flex-col w-full h-full justify-center items-center">
                         <span className="font-semibold text-3xl w-full flex justify-center text-left mb-6">Register an account</span>
 

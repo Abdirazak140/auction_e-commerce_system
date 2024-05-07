@@ -1,74 +1,92 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import imageUrl from "../images/chevroletCorvette.jpeg"
-import Header from '../components/Header'; // Import the header component
-
-
-
+import Navbar from "../components/navbar";
 
 export default function ForwardAuctionBidPage() {
-    const { auctionId } = useParams();
-    const [bidAmount, setBidAmount] = useState("");
-    const [currentHighestBid, setCurrentHighestBid] = useState("");
-    const [timeLeft, setTimeLeft] = useState(""); // Add state for time left
+    const navigate = useNavigate();
+    const sessionId = window.localStorage.getItem('sessionId');
+    const { id } = useParams();
+    const [currentPrice, setCurrentPrice] = useState("");
+    const [endTime, setEndTime] = useState("");
+    const [itemName, setItemName] = useState("");
+    const [bidAmount, setBidAmount] = useState(0);
+    const [errorMsg, setErrorMsg] = useState("")
 
     useEffect(() => {
-        const fetchCurrentBid = async () => {
+        const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/forward-auction/${auctionId}/current-highest-bid`);
-                setCurrentHighestBid(response.data.highestBid);
+                const response = await axios.get(`http://localhost:8080/api/catalogue/product/all/id/${id}`);
+                setCurrentPrice(response.data.currentBid)
+                setItemName(response.data.name)
+                setEndTime(response.data.endTime)
             } catch (error) {
-                console.error("Error fetching current highest bid: ", error);
+                console.error(error);
             }
         };
+        fetchData(); 
+    }, []);
+    
+    useEffect(() => {
+        const fetchAuthState = async () => {
+            if (sessionId) {
+                try {
+                    const response = await axios.post(`http://localhost:8080/api/users/getAuthState?sessionId=${sessionId}`);
+                    console.log(sessionId)
+                    console.log(response.data);
 
-        fetchCurrentBid();
-    }, [auctionId]);
+                    if (response.data === false) {
+                        navigate(`/login`);
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        };
+        fetchAuthState();
+    }, [])
 
-
-
-    const handleSubmit = async (event: any) => {
-        event.preventDefault();
+    const handleBid = async () => {
         try {
-            const response = await axios.post(`http://localhost:8080/api/forward-auction/${auctionId}/bid`, {
-                bidAmount,
-            });
-            console.log(response);
-            alert("Bid placed successfully!");
+            const response = await axios.post(`http://localhost:8080/api/auctions/placeBid?auctionId=${id}&bidAmount=${bidAmount}&sessionId=${sessionId}`);
+            setErrorMsg(response.data.msg)
+            console.log(response);  
         } catch (error) {
-            console.error("Error placing bid: ", error);
-            alert("Failed to place bid.");
+            console.error("Error buying now: ", error);  
         }
     };
 
     return (
         <>
-        <Header/>
-        <div className="outer-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        <Navbar/>
+        <div className="outer-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'start', minHeight: '100vh' }}>
         <div className="auction-container">
             <div className="auction-image">
                 <img src={imageUrl} alt="Auction Item" />
             </div>
             <div className="auction-details">
-                <h1 className="auction-header">Product Item</h1>
+                <h1 className="auction-header">Product Item: {itemName} #{id}</h1>
                 <div className="time-limit-container">
-                    <p>Time Left:</p>
-                    <p>{timeLeft}</p> {/* Update this to show the time left dynamically */}
+                    <p>End Time:</p>
+                    <p>{endTime}</p> 
                 </div>
-                <p className="current-bid">Current Highest Bid: {currentHighestBid}</p>
-                <div className="bid-input">
+                <p className="current-bid">Current Highest Bid: ${currentPrice}</p>
+                <div className="bid-input mt-2">
                     <label htmlFor="bidAmount">Bid Amount: </label>
                     <input
                         id="bidAmount"
                         type="number"
                         value={bidAmount}
-                        onChange={(e) => setBidAmount(e.target.value)}
+                        onChange={(e) => setBidAmount(parseInt(e.target.value, 10))}
                         min="1"
                     />
                 </div>
-                <div style={{bottom: '29%', position: 'absolute', left: '84.55%'}}>
-                <button className="bid" onClick={handleSubmit}>
+                <span className="text-xl text-gray-500 mt-4">{errorMsg}</span>
+                <div style={{bottom: '15%', position: 'absolute'}}>
+                <button className="w-96 cursor-pointer bg-purple-600 text-white py-4 px-4 rounded-md hover:bg-purple-700 transition duration-300" 
+                onClick={handleBid}
+                >
                     Place My Bid
                 </button>
                 </div>

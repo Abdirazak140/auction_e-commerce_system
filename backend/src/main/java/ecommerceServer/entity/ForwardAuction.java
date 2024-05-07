@@ -29,6 +29,7 @@ public class ForwardAuction {
 		this.setId(productId);
 		this.setProductId(productId);
 		this.setStartingPrice(startingPrice);
+		this.setHighestBid(startingPrice);
 		this.setAuctionStatus(1);
 		this.setEndTime(endTime);
 		this.setSellerId(sellerId);

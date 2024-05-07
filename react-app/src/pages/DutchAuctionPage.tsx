@@ -1,60 +1,89 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import "../styles/AuctionPage.css"; 
-import Header from '../components/Header'; // Import the header component
+import { useNavigate, useParams } from "react-router-dom";
+import "../styles/AuctionPage.css";
 import imageUrl from "../images/vintageCar.jpeg";
-
-
+import Navbar from "../components/navbar";
 
 export default function DutchAuctionBidPage() {
+    const navigate = useNavigate();
+    const sessionId = window.localStorage.getItem('sessionId');
+    const { id } = useParams();
     const [currentPrice, setCurrentPrice] = useState("");
-    const { auctionId } = useParams();
-    const [timeLeft, setTimeLeft] = useState(""); // Add state for time left
+    const [endTime, setEndTime] = useState("");
+    const [itemName, setItemName] = useState("");
+    const [errorMsg, setErrorMsg] = useState("")
+    const [isWinner, setIsWinner] = useState(false);
 
-
-        useEffect(() => {
-        const fetchCurrentPrice = async () => {
+    useEffect(() => {
+        const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/forward-auction/${auctionId}/current-price`);
-                setCurrentPrice(response.data.highestBid);
+                const response = await axios.get(`http://localhost:8080/api/catalogue/product/all/id/${id}`);
+                setCurrentPrice(response.data.currentBid)
+                setItemName(response.data.name)
+                setEndTime(response.data.endTime)
+                console.log(response.data)
+
+                if (response.data.currentWinnerID === 0){
+                    setIsWinner(true)
+                }
             } catch (error) {
-                console.error("Error fetching current highest bid: ", error);
+                console.error(error);
             }
         };
-
-        fetchCurrentPrice();
-    }, [auctionId]);
+        fetchData(); 
+    }, []);
+    
+    useEffect(() => {
+        const fetchAuthState = async () => {
+            if (sessionId) {
+                try {
+                    const response = await axios.post(`http://localhost:8080/api/users/getAuthState?sessionId=${sessionId}`);
+                    if (response.data === false) {
+                        navigate(`/login`);
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        };
+        fetchAuthState();
+    }, [])
+    
 
     const handleBuyNow = async () => {
         try {
-            // Trigger the buy now action
-            const response = await axios.post(`http://localhost:8080/api/dutch-auction/${auctionId}/bid`);
+            const response = await axios.post(`http://localhost:8080/api/auctions/buyProduct?auctionId=${id}&sessionId=${sessionId}`);
             console.log(response);
-            alert("Purchase successful!");
+            setErrorMsg(response.data.msg)
+            if (response.data.successful){
+                navigate(`/payment/${id}/${currentPrice}`);
+            }
         } catch (error) {
-            console.error("Error buying now: ", error);
-            alert("Failed to buy.");
+            console.error("Error buying now: ", error);  
         }
     };
 
     return (
         <>
-            <Header />
+            <Navbar />
             <div className="outer-container" style={{ marginTop: '5%' }}>
                 <div className="auction-container">
                     <div className="auction-image">
                         <img src={imageUrl} alt="Auction Item" />
                     </div>
                     <div className="auction-details">
-                        <h1 className="auction-header">Product Item: {auctionId}</h1>
+                        <h1 className="auction-header">Product Item: {itemName} #{id}</h1>
                         <div className="time-limit-container">
-                            <p>Time Left:</p>
-                            <p>{timeLeft}</p>
+                            <p>End Time:</p>
+                            <p>{endTime}</p>
                         </div>
                         <p className="current-price">Current Price: ${currentPrice}</p>
-                        <div style={{bottom: '33.5%', position: 'absolute', left: '84%'}}>
-                        <button className="buy-now" onClick={handleBuyNow}>Buy Now</button>
+                        <span className="text-xl text-gray-500 mt-4">{errorMsg}</span>
+                        <div style={{ bottom: '30.5%', position: 'absolute' }}>
+                            <button className="w-96 cursor-pointer bg-purple-600 text-white py-4 px-4 rounded-md hover:bg-purple-700 transition duration-300" 
+                            onClick={handleBuyNow}
+                            >{isWinner ? "Finish payment" : "Buy now"}</button>
                         </div>
                     </div>
                 </div>

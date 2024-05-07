@@ -1,8 +1,47 @@
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { RiAuctionFill } from "react-icons/ri";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+
 export default function Navbar() {
-    const [isLoggedIn, setLoggedIn] = useState(true);
+    const [isLoggedIn, setLoggedIn] = useState(false);
+    const navigate = useNavigate();
+    const sessionId = window.localStorage.getItem('sessionId');
+
+    const handleLogout = async (event: any) => {
+        event.preventDefault();
+        
+        try {
+            const response = await axios.delete(`http://localhost:8080/api/users/logout?sessionId=${sessionId}`);
+            console.log(response.data)
+            navigate(`/`);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        const fetchAuthState = async () => {
+            if (sessionId) {
+                try {
+                    const response = await axios.post(`http://localhost:8080/api/users/getAuthState?sessionId=${sessionId}`);
+                    console.log(sessionId)
+                    console.log(response.data);
+
+                    if (response.data === true) {
+                        setLoggedIn(true)
+                    }
+                    else{
+                        setLoggedIn(false)
+                    }
+
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        };
+        fetchAuthState();
+    }, [])
 
     return (
         <nav className="flex justify-between items-center p-6 bg-white text-black">
@@ -24,7 +63,7 @@ export default function Navbar() {
                     <div className="flex items-center space-x-4">
                         <Link to="/dashboard" className="text-lg text-gray-500 hover:text-gray-800 transition ease-in-out duration-300">dashboard</Link>
                         <Link to="/item-search" className="text-lg text-gray-500 hover:text-gray-800 transition ease-in-out duration-300">catalogue</Link>
-                        <button className="btn-signup hover:bg-purple-700 transition ease-in-out duration-300">Sign Out</button>
+                        <button onClick={handleLogout} className="btn-signup hover:bg-purple-700 transition ease-in-out duration-300">Sign Out</button>
                     </div>
                 )}
             </div>
