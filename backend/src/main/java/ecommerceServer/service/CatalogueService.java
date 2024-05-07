@@ -11,9 +11,12 @@ import org.springframework.stereotype.Service;
 
 import ecommerceServer.connection.CatalogueResponse;
 import ecommerceServer.entity.ForwardAuction;
+import ecommerceServer.entity.Picture;
 import ecommerceServer.entity.Product;
 import ecommerceServer.exception.AuctionNotFoundException;
+import ecommerceServer.exception.PictureNotFoundException;
 import ecommerceServer.exception.ProductNotFoundException;
+import ecommerceServer.repository.ImageRepository;
 import ecommerceServer.repository.ProductRepository;
 import java.time.LocalDateTime;
 
@@ -22,6 +25,9 @@ public class CatalogueService {
 	
 	@Autowired
 	private ProductRepository catalogueRepository;
+	
+	@Autowired
+	private ImageRepository imageRepository;
 	
 	//This Method should not be reached in normal use, only for testing purposes
 	public CatalogueResponse updateBid(long id, double value) {
@@ -103,4 +109,24 @@ public class CatalogueService {
 			return false;
 		}
 	}
+	
+	
+	public Byte[] getProductPicture(long id) throws ProductNotFoundException, PictureNotFoundException {
+		Optional<Product> prodOptional = catalogueRepository.findById(id);
+		if (!prodOptional.isPresent()) {
+			throw new ProductNotFoundException(id);
+		}
+		
+		Optional<Picture> picOptional = imageRepository.findById(id);
+		if (!picOptional.isPresent()) {
+			throw new PictureNotFoundException(id);
+		}
+		else {
+			Picture pic = picOptional.get();
+			return pic.getPicture();
+		}
+		
+		
+	}
+	
 }
