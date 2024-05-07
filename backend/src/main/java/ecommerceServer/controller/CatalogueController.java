@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 import ecommerceServer.repository.ProductRepository;
 import ecommerceServer.repository.DutchAuctionRepository;
 import ecommerceServer.repository.ForwardAuctionRepository;
-import ecommerceServer.repository.ImageRepository;
 import ecommerceServer.service.CatalogueFunction;
 import ecommerceServer.service.CatalogueService;
 import ecommerceServer.assembler.ProductModelAssembler;
@@ -33,7 +32,6 @@ import ecommerceServer.connection.CatalogueResponse;
 import ecommerceServer.entity.Product;
 import ecommerceServer.entity.DutchAuction;
 import ecommerceServer.entity.ForwardAuction;
-import ecommerceServer.entity.Picture;
 import ecommerceServer.exception.*;
 
 
@@ -50,17 +48,14 @@ public class CatalogueController {
 	@Autowired
 	private final DutchAuctionRepository dutchAucRepo;
 	@Autowired
-	private final ImageRepository imageRepo;
-	@Autowired
 	private CatalogueService cataServe;
 	
 	
-	CatalogueController(ProductRepository repo, ProductModelAssembler assembler, DutchAuctionRepository dutchAucRepo, ForwardAuctionRepository forwardAucRepo, ImageRepository imageRepo){
+	CatalogueController(ProductRepository repo, ProductModelAssembler assembler, DutchAuctionRepository dutchAucRepo, ForwardAuctionRepository forwardAucRepo){
 		this.repo = repo;
 		this.assembler = assembler;
 		this.dutchAucRepo = dutchAucRepo;
 		this.forwardAucRepo = forwardAucRepo;
-		this.imageRepo = imageRepo;
 	}
 	
 	//Get Commands (Browse Catalogue)
@@ -132,7 +127,6 @@ public class CatalogueController {
 	public List<Product> getProductBySeller(@RequestParam long sellerId){
 		return CatalogueFunction.filterProductBySeller(repo.findAll(), sellerId);
 	}
-	
 	
 	//Put Commands (Update values of bids)
 	
@@ -214,5 +208,6 @@ public class CatalogueController {
 		repo.deleteById(id);
 
 	}
+
 
 }

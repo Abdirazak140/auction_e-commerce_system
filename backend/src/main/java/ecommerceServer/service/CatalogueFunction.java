@@ -39,7 +39,7 @@ public class CatalogueFunction {
 			return tmp;
 		}
 	}
-	
+
 	public static List<Product> filterProductBySeller(List<Product> productList, long sellerId){
 		List<Product> tmp = new ArrayList<Product>();
 		List<Product> full = productList;

@@ -15,10 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ecommerceServer.connection.AuthenticationMessage;
 import ecommerceServer.connection.LoginRequest;
-import ecommerceServer.entity.Product;
 import ecommerceServer.entity.Session;
 import ecommerceServer.entity.User;
-import ecommerceServer.exception.ProductNotFoundException;
 import ecommerceServer.exception.UserNotFoundException;
 import ecommerceServer.repository.SessionRepository;
 import ecommerceServer.repository.UserRepository;
@@ -108,4 +106,11 @@ public class LoginController {
 			return ResponseEntity.ok("Error: "+ result.getMsg());
 		}
 	}
+	
+	@PostMapping("/user")
+    public User getUserInfo(@RequestParam String sessionId) {
+        Session session = sessionRepository.findBySessionId(sessionId);
+        User user = userRepository.findById(session.getUserId()).orElseThrow(() -> new UserNotFoundException(session.getUserId()));
+        return user;
+    }
 }
