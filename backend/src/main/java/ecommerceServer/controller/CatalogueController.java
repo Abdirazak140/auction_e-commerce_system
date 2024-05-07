@@ -116,6 +116,13 @@ public class CatalogueController {
 		return CatalogueFunction.filterProductByType(CatalogueFunction.filterProductByName(repo.findAll(), name), "forward");
 	}
 	
+	//Get all active forward auctions
+	@GetMapping("/product/forward/status/active")
+	public List<Product> getProductActiveForward() {
+		return CatalogueFunction.filterProductByActive(repo.findAll());
+	}
+	
+	
 //	//Get Product Image Upon Request
 //	@GetMapping("/product/image/{id}")
 //	public byte[] getProductImage(@PathVariable long id) {
