@@ -157,7 +157,7 @@ public class CatalogueController {
 	}
 	
 	//Updates Buy It Now price for dutch auctions (Seller Endpoint)
-	@PutMapping("/product/update/{id}/{value}")
+	@PutMapping("/product/update/dutch/{id}/{value}")
 	public ResponseEntity<CatalogueResponse> updateDutchPrice(@PathVariable long auctionId, @PathVariable double value, @RequestParam long sellerId){
 		CatalogueResponse response = cataServe.setDutchPrice(auctionId, value, sellerId);
 		return ResponseEntity.ok(response);
