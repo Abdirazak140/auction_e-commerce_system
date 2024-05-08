@@ -122,6 +122,10 @@ public class CatalogueController {
 		return CatalogueFunction.filterProductByActive(repo.findAll());
 	}
 	
+	@GetMapping("/product/forward/status/{id}")
+	public boolean checkAuctionActive(@PathVariable Long id) {
+		return cataServe.checkActive(id);
+	}
 	
 //	//Get Product Image Upon Request
 //	@GetMapping("/product/image/{id}")

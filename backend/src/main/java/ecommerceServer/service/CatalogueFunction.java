@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import ecommerceServer.entity.Product;
 import ecommerceServer.exception.AuctionNotFoundException;

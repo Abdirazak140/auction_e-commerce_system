@@ -144,6 +144,27 @@ public class CatalogueService {
 		}
 	}
 	
+	public boolean checkActive(long id) {
+		Optional<Product> prodOptional = catalogueRepository.findById(id);
+		if (!prodOptional.isPresent()) {
+			return false;
+		}
+		Product prod = prodOptional.get();
+		LocalDateTime date = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		String text = date.format(formatter);
+		LocalDateTime parsedDate = LocalDateTime.parse(text, formatter);
+		if (prod.getAuctionType().equals("forward")) {
+			if (LocalDateTime.parse(prod.getEndTime(), formatter).isAfter(parsedDate)) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		return false;
+	}
+	
 //	public byte[] getProductPicture(long id) throws ProductNotFoundException, PictureNotFoundException {
 //		Optional<Product> prodOptional = catalogueRepository.findById(id);
 //		if (!prodOptional.isPresent()) {
