@@ -15,6 +15,9 @@ public class Picture {
 	private String fileName;
 	private String fileType;
 	
+	public Picture() {
+	}
+	
 	public Picture(long id, String fileName, String fileType, byte[] picture) {
 		this.id = id;
 		this.fileName = fileName;

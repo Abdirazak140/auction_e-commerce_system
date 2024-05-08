@@ -2,6 +2,7 @@ package ecommerceServer.controller;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,35 +43,49 @@ public class FileController {
 	public FileController(PictureRepository picRepo) {
 		this.picRepo = picRepo;
 	}
-	
+	/*
 	@GetMapping("/file/{id}")
-	public Picture getFile(@PathVariable long id) {
+	public byte[] getFile(@PathVariable long id) {
+		System.out.println("Bean4");
 		Optional<Picture> picTmp = picRepo.findById(id);
+		System.out.println("Bean5");
 		if (!picTmp.isPresent()) {
+			System.out.println("Bean No");
 			return null;
 		}
 		else {
+			System.out.println("Bean Yes");
 			Picture pic = picTmp.get();
-			return pic;
+			return pic.getPicture();
 		}
+	}
+	*/
+	
+	@GetMapping("/file/all")
+	public List<Picture> getAllFiles() {
+		return picRepo.findAll();
 	}
 	
 	@PostMapping("/file/upload/{id}")
 	public ResponseEntity<String> uploadFile(@PathVariable long id, @RequestParam("file") MultipartFile file) throws Exception {
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 		try {
+			System.out.println("Bean");
 			if(fileName.contains("..")) {
                 throw  new Exception("Filename contains invalid path sequence " + fileName);
             }
              if (file.getBytes().length > (1024 * 1024)) {
                 throw new Exception("File size exceeds maximum limit");
             }
+            System.out.println("Bean2");
             Picture attachment = new Picture(id, fileName, file.getContentType(), file.getBytes());
+            System.out.println("Bean3");
             picRepo.save(attachment);
             return ResponseEntity.ok("File Uploaded");
         } catch (SizeExceededException e) {
             throw new SizeExceededException(file.getSize());
         } catch (Exception e) {
+        	e.printStackTrace();
             throw new Exception("Could not save File: " + fileName);
         }
     }
