@@ -59,6 +59,8 @@ export default function Navbar() {
                     </div>
                 ) : (
                     <div className="flex items-center space-x-4">
+                        <Link to="/manage-auctions" className="text-lg text-gray-500 hover:text-gray-800 transition ease-in-out duration-300">my_auctions</Link>
+
                         <Link to="/dashboard" className="text-lg text-gray-500 hover:text-gray-800 transition ease-in-out duration-300">dashboard</Link>
                         <Link to="/item-search" className="text-lg text-gray-500 hover:text-gray-800 transition ease-in-out duration-300">catalogue</Link>
                         <button onClick={handleLogout} className="btn-signup hover:bg-purple-700 transition ease-in-out duration-300">Sign Out</button>

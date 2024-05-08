@@ -1,92 +1,85 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import '../styles/Products.css'; 
-import Header from '../components/Header';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import Navbar from "../components/navbar";
+import { CiSearch } from "react-icons/ci";
+import ItemCard from "../components/item_card";
 
-interface Product {
-  id: number;
-  name: string;
-  winningBid: number;
-  auctionType: string;
-  date: string;
-}
+export default function AuctionHistory() {
+    const navigate = useNavigate();
+    const sessionId = window.localStorage.getItem('sessionId');
+    const [isLoading, setLoading] = useState(false)
+    const [items, setItems] = useState<{ id: number; name: string; currentBid: number; auctionType: string; endTime: string; }[]>([]);
+    const [userId, setUserId] = useState(null);
 
-const AuctionHistory: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
+    useEffect(() => {
+      const fetchUserId = async () => {
+          try {
+              const response = await axios.get(`http://localhost:8080/api/users/userId?sessionId=${sessionId}`);
+              setUserId(response.data);
+          } catch (error) {
+              console.error('Error fetching user ID:', error);
+          }
+      };
 
-  useEffect(() => {
-    axios.get<Product[]>('http://localhost:8080/product')
-      .then(response => {
-        setProducts(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
+      fetchUserId();
   }, []);
 
-  const handleSelectButtonClick = (productId: number) => {
-    // Handle button click, e.g., add selected product to a list
-    console.log('Product selected:', productId);
-  };
+    useEffect(() => {
+        const fetchAuthState = async () => {
+            if (sessionId) {
+                try {
+                    const response = await axios.post(`http://localhost:8080/api/users/getAuthState?sessionId=${sessionId}`);
 
-  const handleSearch = () => {
-    const filteredProducts = products.filter(product =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setProducts(filteredProducts);
-  };
+                    if (response.data === false) {
+                        navigate(`/login`);
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        };
+        fetchAuthState();
+    }, [])
 
-  return (
-    <>
-      <Header />
-      <div className='main'>
-        <div className="product-table-container">
-          <h1>Product Catalogue</h1>
-          <div className="search-container">
-            <div style={{left: '24%', top: "50px", position: "absolute"}}>
-            <button onClick={handleSearch} className="search-icon-button">
-              <FontAwesomeIcon icon={faSearch} />
-            </button>
+    useEffect(() => {
+        setLoading(true);
+        const fetchCatalogue = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/catalogue/product/seller?sellerId=${userId}`);
+                setItems(response.data)
+                console.log(response)
+            } catch (error) {
+                console.error(error);
+            }
+            setLoading(false);
+        }
+
+        fetchCatalogue();
+    }, [userId])
+
+    return (
+        <div>
+            <Navbar />
+            <div className="h-screen w-screen flex flex-col justify-start items-start pt-12 pl-10">
+                <div className="w-full mb-6">
+                    <span className="text-4xl text-gray-600 font-bold">My Auctions:</span>
+                </div>
+
+                <div className="w-full mt-8 flex flex-wrap">
+                    {items.map((item) => (
+                        <ItemCard
+                            key={item.id}
+                            id={item.id}
+                            name={item.name}
+                            currentBid={item.currentBid}
+                            auctionType={item.auctionType}
+                            endTime={item.endTime}
+                        />
+                    ))}
+                </div>
             </div>
-            <input
-              type="text"
-              placeholder="Search by item name"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="search-input"
-            />
-          </div>
-        <table className="product-table">
-        <thead>
-          <tr>
-            <th>Item Name</th>
-            <th>Current Price</th>
-            <th>Auction Type</th>
-            <th>Winning Bid</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map(product => (
-            <tr key={product.id}>
-              <td>{product.name}</td>
-              <td>${product.winningBid}</td>
-              <td>{product.auctionType}</td>
-              <td>{product.date}</td>
-              <td>
-                <button onClick={() => handleSelectButtonClick(product.id)}>Select</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-    </div>
-    </>
-  );
-};
+        </div>
+    )
+}
 
-export default AuctionHistory;

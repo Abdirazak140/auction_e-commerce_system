@@ -14,6 +14,8 @@ export default function ForwardAuctionBidPage() {
     const [bidAmount, setBidAmount] = useState(0);
     const [errorMsg, setErrorMsg] = useState("")
     const [userId, setUserId] = useState(null);
+    const [sellerId, setSellerId] = useState(null);
+    const [isOwner, setIsOwner] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -22,7 +24,8 @@ export default function ForwardAuctionBidPage() {
                 setCurrentPrice(response.data.currentBid)
                 setItemName(response.data.name)
                 setEndTime(response.data.endTime)
-                console.log(response)
+                setSellerId(response.data.sellerId)
+                console.log(response.data)
             } catch (error) {
                 console.error(error);
             }
@@ -59,6 +62,29 @@ export default function ForwardAuctionBidPage() {
         fetchUserId();
     }, []);
 
+    useEffect(() => {
+        const fetchStatus = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/catalogue/product/forward/status/${id}`);
+                if (!response.data){
+                    navigate(`/auction-end/${id}/${currentPrice}`);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchStatus();
+    }, []);
+
+    useEffect(() => {
+        if (sellerId === userId){
+            setIsOwner(true)
+        }
+        else{
+            setIsOwner(false)
+        }
+    },[sellerId, userId])
 
     const handleBid = async () => {
         try {
@@ -101,6 +127,7 @@ export default function ForwardAuctionBidPage() {
                     <p>{endTime}</p> 
                 </div>
                 <p className="current-bid">Current Highest Bid: ${currentPrice}</p>
+                {!isOwner ? (<div>
                 <div className="bid-input mt-2">
                     <label htmlFor="bidAmount">Bid Amount: </label>
                     <input
@@ -119,6 +146,8 @@ export default function ForwardAuctionBidPage() {
                     Place My Bid
                 </button>
                 </div>
+                </div>
+                ) : (<p className="text-gray-800">You own this auction.</p>)}
             </div>
         </div>
         </div>
