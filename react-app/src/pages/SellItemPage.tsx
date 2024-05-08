@@ -16,6 +16,7 @@ const SellItemPage = () => {
   });
 
   const [image, setImage] = useState<any>(null);
+  const [rawImage, setRawImage] = useState<any>(null);
   const navigate = useNavigate();
 
   const handleChange = (e: any) => {
@@ -25,6 +26,7 @@ const SellItemPage = () => {
   const handleImageChange = (e: any) => {
     if (e.target.files) {
       const file = e.target.files[0];
+      setRawImage(file)
       const reader = new FileReader();
       reader.onloadend = () => {
         const imageDataUrl = reader.result as string;
@@ -89,25 +91,27 @@ const SellItemPage = () => {
       console.log('First response:', firstResponse.data);
 
 
-      const sendImage = async () => {
-        try {
-          const formData = new FormData();
-          formData.append('id', firstResponse.data.msg);
-          formData.append('image', image);
-          console.log(formData)
-          console.log(image)
-          // const secondResponse = await axios.post('http://localhost:8080/api/catalogue/product/sell/adv', formData);
-          // console.log('Second response:', secondResponse.data);
+      // const sendImage = async () => {
+      //   try {
+      //     const formData = new FormData();
+      //     formData.append('file', rawImage); 
+      //     console.log(formData);
+      //     const secondResponse = await axios.post(`http://localhost:8080/api/file/upload/${firstResponse.data.msg}`, formData, {
+      //       headers: {
+      //         'Content-Type': 'multipart/form-data',
+      //       },
+      //     });
+      //     console.log('Second response:', secondResponse.data);
 
 
-        } catch (error) {
-          console.error('Error listing item:', error);
-        }
-      }
+      //   } catch (error) {
+      //     console.error('Error listing item:', error);
+      //   }
+      // }
 
-      if (image){
-        sendImage();
-      }
+      // if (image){
+      //   sendImage();
+      // }
     } catch (error) {
       console.error('Error listing item:', error);
     }
