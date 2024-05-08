@@ -218,6 +218,11 @@ public class CatalogueController {
 //	}
 
 
+	
+	
+	
+	
+	
 	//Delete Commands (Auction Finish)
 	
 	//Remove Auction based on Id
