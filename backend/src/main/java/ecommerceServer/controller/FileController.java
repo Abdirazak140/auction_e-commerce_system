@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +32,7 @@ import ecommerceServer.repository.PictureRepository;
 //import com.example.uploadingfiles.storage.StorageService;
 
 @Controller
+@RequestMapping("/api")
 public class FileController {
 	
 	@Autowired
@@ -41,7 +43,7 @@ public class FileController {
 		this.picRepo = picRepo;
 	}
 	
-	@GetMapping("/api/file/{id}")
+	@GetMapping("/file/{id}")
 	public Picture getFile(@PathVariable long id) {
 		Optional<Picture> picTmp = picRepo.findById(id);
 		if (!picTmp.isPresent()) {
@@ -53,7 +55,7 @@ public class FileController {
 		}
 	}
 	
-	@PostMapping("/api/file/upload/{id}")
+	@PostMapping("/file/upload/{id}")
 	public ResponseEntity<String> uploadFile(@PathVariable long id, @RequestParam("file") MultipartFile file) throws Exception {
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 		try {
