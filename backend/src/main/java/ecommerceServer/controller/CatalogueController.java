@@ -116,6 +116,17 @@ public class CatalogueController {
 		return CatalogueFunction.filterProductByType(CatalogueFunction.filterProductByName(repo.findAll(), name), "forward");
 	}
 	
+	//Get all active forward auctions
+	@GetMapping("/product/forward/status/active")
+	public List<Product> getProductActiveForward() {
+		return CatalogueFunction.filterProductByActive(repo.findAll());
+	}
+	
+	@GetMapping("/product/forward/status/{id}")
+	public boolean checkAuctionActive(@PathVariable Long id) {
+		return cataServe.checkActive(id);
+	}
+	
 //	//Get Product Image Upon Request
 //	@GetMapping("/product/image/{id}")
 //	public byte[] getProductImage(@PathVariable long id) {

@@ -1,7 +1,10 @@
 package ecommerceServer.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import ecommerceServer.entity.Product;
 import ecommerceServer.exception.AuctionNotFoundException;
@@ -50,6 +53,28 @@ public class CatalogueFunction {
 		}
 		if (tmp.size() < 1) {
 			throw new ProductNotFoundException(sellerId);
+		}
+		else {
+			return tmp;
+		}
+	}
+	
+	public static List<Product> filterProductByActive(List<Product> productList){
+		List<Product> tmp = new ArrayList<Product>();
+		List<Product> full = productList;
+		LocalDateTime date = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		String text = date.format(formatter);
+		LocalDateTime parsedDate = LocalDateTime.parse(text, formatter);
+		for (int i = 0; i < full.size(); i++) {
+			if (full.get(i).getAuctionType().equals("forward")) {
+				if (LocalDateTime.parse(full.get(i).getEndTime(), formatter).isAfter(parsedDate)) {
+					tmp.add(full.get(i));
+				}
+			}
+		}
+		if (tmp.size() < 1) {
+			throw new AuctionNotFoundException("active dutch");
 		}
 		else {
 			return tmp;
