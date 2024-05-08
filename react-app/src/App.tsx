@@ -34,7 +34,7 @@ function App() {
           <Route path="/auction-end/:id/:price" element={<AuctionEndPage />} /> 
           
           <Route path="/update-dutch-auction-price" element={<UpdateDutchAuctionPrice />} /> 
-          <Route path="/auction-history" element={<AuctionHistory />} /> 
+          <Route path="/manage-auctions" element={<AuctionHistory />} /> 
         </Routes>
     </Router>
   );
