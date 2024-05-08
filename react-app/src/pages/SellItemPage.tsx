@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const SellItemPage = () => {
   const [userId, setUserId] = useState(null);
-
+  const [msg, setMsg] = useState("");
   const [itemDetails, setItemDetails] = useState<any>({
     name: '',
     currentBid: '',
@@ -89,8 +89,9 @@ const SellItemPage = () => {
       setItemDetails(updatedItemDetails);
       const firstResponse = await axios.post('http://localhost:8080/api/catalogue/product/sell', updatedItemDetails);
       console.log('First response:', firstResponse.data);
-
-
+      if (firstResponse.data.successful){
+        setMsg("Successful");
+      }
       // const sendImage = async () => {
       //   try {
       //     const formData = new FormData();
@@ -135,6 +136,10 @@ const SellItemPage = () => {
             <div>
               <button type="submit" className="w-full cursor-pointer bg-purple-600 text-white py-4 px-4 rounded-md hover:bg-purple-700 transition duration-300">List Item</button>
             </div>
+            <div className='w-full flex justify-center'>
+            <p className="text-green-500 text-2xl bold mt-2">{msg}</p>
+            </div>
+            
           </form>
         </div>
       </div>

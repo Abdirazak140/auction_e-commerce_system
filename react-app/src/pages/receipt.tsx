@@ -11,7 +11,7 @@ const Receipt = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState<any>({})
   const { id, price } = useParams();
-  
+
   useEffect(() => {
     const fetchAuthState = async () => {
       if (sessionId) {
@@ -38,6 +38,22 @@ const Receipt = () => {
     };
     fetchAuthState();
   }, []);
+
+  useEffect(() => {
+
+    const deleteAuction = async () => {
+      try {
+        const response = await axios.delete(`http://localhost:8080/api/product/end/${id}`);
+        console.log(response)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    deleteAuction();
+
+  }, []);
+
   return (
     <>
       <div className='flex flex-row justify-evenly h-screen w-screen py-10 bg-gradient-to-r from-white to-blue-100'>
@@ -45,7 +61,7 @@ const Receipt = () => {
           <h1 className="text-2xl font-bold mb-4">Reciept</h1>
           <div className="flex flex-col py-4 rounded-lg w-96 overflow-hidden shadow-sm border-4 bg-white">
             <div className='Winning-bidder'>
-            <div className='flex flex-row w-full justify-between px-3'>
+              <div className='flex flex-row w-full justify-between px-3'>
                 <p>First Name:</p>
                 <p className='text-black font-semibold'>{userInfo.fname}</p>
               </div>
@@ -89,11 +105,11 @@ const Receipt = () => {
             <p className="text-lg text-center text-white font-semibold">The item will be shipped in XXX days</p>
           </div>
 
-          <span 
-          onClick={() => (
-            navigate(`/dashboard`))
-          }
-          className='text-blue-500 font-bold text-2xl mt-96 cursor-pointer'>{'Back to main page >'}</span>
+          <span
+            onClick={() => (
+              navigate(`/dashboard`))
+            }
+            className='text-blue-500 font-bold text-2xl mt-96 cursor-pointer'>{'Back to main page >'}</span>
         </div>
 
       </div>
