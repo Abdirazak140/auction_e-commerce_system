@@ -135,8 +135,8 @@ public class CatalogueController {
 //	
 	//Get All Products Sold By User
 	@GetMapping("/product/seller")
-	public List<Product> getProductBySeller(@RequestParam long sellerId){
-		return CatalogueFunction.filterProductBySeller(repo.findAll(), sellerId);
+	public List<Product> getProductBySeller(@RequestParam long id){
+		return CatalogueFunction.filterProductBySeller(repo.findAll(), id);
 	}
 	
 	//Put Commands (Update values of bids)
@@ -158,8 +158,8 @@ public class CatalogueController {
 	
 	//Updates Buy It Now price for dutch auctions (Seller Endpoint)
 	@PutMapping("/product/update/dutch/{id}/{value}")
-	public ResponseEntity<CatalogueResponse> updateDutchPrice(@PathVariable long auctionId, @PathVariable double value, @RequestParam long sellerId){
-		CatalogueResponse response = cataServe.setDutchPrice(auctionId, value, sellerId);
+	public ResponseEntity<CatalogueResponse> updateDutchPrice(@PathVariable long id, @PathVariable double value, @RequestParam long sellerId){
+		CatalogueResponse response = cataServe.setDutchPrice(id, value, sellerId);
 		return ResponseEntity.ok(response);
 	}
 	
