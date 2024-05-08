@@ -5,11 +5,14 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const SellItemPage = () => {
+  const [userId, setUserId] = useState(null);
+
   const [itemDetails, setItemDetails] = useState<any>({
     name: '',
     currentBid: '',
     endTime: '',
-    auctionType: 'dutch'
+    auctionType: 'dutch',
+    sellerId: userId
   });
 
   const [image, setImage] = useState<any>(null);
@@ -21,9 +24,41 @@ const SellItemPage = () => {
 
   const handleImageChange = (e: any) => {
     if (e.target.files) {
-      setImage(e.target.files[0]);
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const imageDataUrl = reader.result as string;
+        const blob = dataURLtoBlob(imageDataUrl);
+        setImage(blob);
+      };
+      reader.readAsDataURL(file);
     }
   };
+
+  const dataURLtoBlob = (dataURL: string) => {
+    const parts = dataURL.split(';base64,');
+    const contentType = parts[0].split(':')[1];
+    const raw = window.atob(parts[1]);
+    const blob = new Blob([raw], { type: contentType });
+    return blob;
+  };
+
+
+  useEffect(() => {
+    const sessionId = window.localStorage.getItem('sessionId');
+    const fetchUserId = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/users/userId?sessionId=${sessionId}`);
+        setUserId(response.data);
+      } catch (error) {
+        console.error('Error fetching user ID:', error);
+      }
+    };
+
+    fetchUserId();
+
+    setItemDetails({ ...itemDetails, sellerId: userId });
+  }, [userId]);
 
   useEffect(() => {
     const fetchAuthState = async () => {
@@ -47,19 +82,32 @@ const SellItemPage = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const firstResponse = await axios.post('http://localhost:8080/api/catalogue/product/sell', itemDetails);
+      const formattedDate = itemDetails.endTime.replace('T', ' ').slice(0, 16);
+      const updatedItemDetails = { ...itemDetails, endTime: formattedDate };
+      setItemDetails(updatedItemDetails);
+      const firstResponse = await axios.post('http://localhost:8080/api/catalogue/product/sell', updatedItemDetails);
       console.log('First response:', firstResponse.data);
 
-      const formData = new FormData();
-      formData.append('id', firstResponse.data.id); 
-      formData.append('image', image);
 
-      const secondResponse = await axios.post('http://localhost:8080/api/catalogue/product/sell/adv', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+      const sendImage = async () => {
+        try {
+          const formData = new FormData();
+          formData.append('id', firstResponse.data.msg);
+          formData.append('image', image);
+          console.log(formData)
+          console.log(image)
+          // const secondResponse = await axios.post('http://localhost:8080/api/catalogue/product/sell/adv', formData);
+          // console.log('Second response:', secondResponse.data);
+
+
+        } catch (error) {
+          console.error('Error listing item:', error);
         }
-      });
-      console.log('Second response:', secondResponse.data);
+      }
+
+      if (image){
+        sendImage();
+      }
     } catch (error) {
       console.error('Error listing item:', error);
     }

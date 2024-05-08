@@ -46,7 +46,7 @@ export default function AuctionHistory() {
         setLoading(true);
         const fetchCatalogue = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/catalogue/product/seller?sellerId=${userId}`);
+                const response = await axios.get(`http://localhost:8080/api/catalogue/product/seller?id=${userId}`);
                 setItems(response.data)
                 console.log(response)
             } catch (error) {
